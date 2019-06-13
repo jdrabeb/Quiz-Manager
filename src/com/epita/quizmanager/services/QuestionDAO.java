@@ -3,9 +3,12 @@ package com.epita.quizmanager.services;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.epita.quizmanager.entities.MCQQuestion;
 import com.epita.quizmanager.entities.Question;
+import com.epita.quizmanager.entities.QuestionType;
 
 public class QuestionDAO {
 	
@@ -25,7 +28,7 @@ public class QuestionDAO {
 		{
 	        Class.forName("org.h2.Driver");
 			Connection connection = initConnection();
-			PreparedStatement statement = connection.prepareStatement("INSERT INTO QUESTION(QUESTION, DIFFICULTY, TYPE) VALUES(?,?,?)");
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO QUESTIONS (QUESTION, DIFFICULTY, TYPE) VALUES(?,?,?)");
 			statement.setString(1, question.getQuestion());
 			statement.setInt(2, question.getDifficulty());
 			statement.setString(3, question.getQuestionType().name());
@@ -38,5 +41,41 @@ public class QuestionDAO {
 		    e.printStackTrace();
 		   }
 	}
-
+	
+	public void createMCQQuestion(MCQQuestion mcqQuestion)
+	{
+		int questionId = 0;
+		Question question = new Question (mcqQuestion.getQuestion(), mcqQuestion.getDifficulty(), mcqQuestion.getQuestionType());
+		createQuestion(question);
+		try
+		{
+	        Class.forName("org.h2.Driver");
+			Connection connection = initConnection();
+			PreparedStatement selectStatement = connection.prepareStatement("SELECT QUESTION_ID FROM QUESTIONS WHERE QUESTION = ? AND DIFFICULTY = ? AND TYPE = ?");
+			selectStatement.setString(1, question.getQuestion());
+			selectStatement.setInt(2, question.getDifficulty());
+			selectStatement.setString(3, question.getQuestionType().name());
+			ResultSet rs = selectStatement.executeQuery();
+			while (rs.next())
+			{
+				questionId = rs.getInt(1);
+				System.out.println(questionId);
+			}
+			System.out.println(questionId);
+			PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO MCQ_QUESTION (QUESTION_ID, CHOICE_1, CHOICE_2, CHOICE_3, ANSWER) VALUES(?,?,?,?,?)");
+			insertStatement.setInt(1, questionId);
+			insertStatement.setString(2, mcqQuestion.getAnswer());
+			insertStatement.setString(3, mcqQuestion.getFirstChoice());
+			insertStatement.setString(4, mcqQuestion.getSecondChoice());
+			insertStatement.setString(5, mcqQuestion.getThirdChoice());
+			insertStatement.execute();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		   }
+	}
 }
