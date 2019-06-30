@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.epita.quizmanager.entities.MCQChoice;
 import com.epita.quizmanager.entities.MCQQuestion;
+import com.epita.quizmanager.entities.Topic;
 
 
 public class MCQQuestionDAO extends DAO<MCQQuestion>
@@ -18,6 +21,8 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 	private final String SELECT_QUESTIONID = "SELECT QUESTION_ID FROM MCQQUESTIONS WHERE QUESTION = ? ";
 	private final String INSERT_MCQCHOICES = "INSERT INTO MCQCHOICES VALUES(NULL, ?, ?, ?)";
 
+	private final String SELECT_QUESTION_BY_TOPIC = "SELECT * FROM MCQQUESTIONS Q INNER JOIN TOPICS T ON Q.TOPIC_ID= T.TOPIC_ID WHERE T.TOPIC = ?";
+	private final String SELECT_CHOICES_BY_QUESTION = "SELECT CHOICE, ISVALID FROM MCQCHOICES C INNER JOIN MCQQUESTIONS Q ON C.QUESTION_ID= Q.QUESTION_ID WHERE Q.QUESTION= ?";
 	public MCQQuestionDAO(Connection connection)
 	{
 		super(connection);
@@ -83,8 +88,41 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		  
 	}
 
-	public MCQQuestion find(String topic)
+	public MCQQuestion find(String searchtopic)
 	{
+		String question;
+		int difficulty;
+		Topic topic = new Topic(searchtopic);
+		try
+		{
+			PreparedStatement selectQuestionByTopic = connection.prepareStatement(SELECT_QUESTION_BY_TOPIC);
+			selectQuestionByTopic.setString(1, searchtopic);
+			ResultSet resultSet = selectQuestionByTopic.executeQuery();
+			if (resultSet.next())
+			{
+				question = resultSet.getString("question");
+				difficulty = resultSet.getInt("difficulty");
+			}
+			else
+			{
+				return null;
+			}
+			List<MCQChoice> choices = new ArrayList<MCQChoice>();
+			PreparedStatement selectChoices = connection.prepareStatement(SELECT_CHOICES_BY_QUESTION);
+			selectChoices.setString(1, question);
+			ResultSet rst = selectChoices.executeQuery();
+			while (rst.next())
+			{
+				MCQChoice choice = new MCQChoice(rst.getString("choice"), rst.getBoolean("isvalid"));
+				choices.add(choice);
+			}
+			MCQQuestion mcqQuestion = new MCQQuestion(question, difficulty, topic, choices);
+			return mcqQuestion;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 		return null;
 	}
 

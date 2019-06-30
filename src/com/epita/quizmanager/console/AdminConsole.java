@@ -44,6 +44,7 @@ public class AdminConsole {
 	        	break;
 	        }
 	    }
+	    input.close();
 	}
 	
 	public void mcqMenu()
@@ -67,6 +68,7 @@ public class AdminConsole {
     			createMcqQuestionMenu();
     			break;
     		case 2:
+    			searchMcqQuestionMenu();
     			break;
     		case 3:
     			break;
@@ -111,6 +113,18 @@ public class AdminConsole {
 	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
 		mcqDao.create(mcqQuestion);
 	}
+	
+	public void searchMcqQuestionMenu()
+	{
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter the topic to search.\n");
+		String topic = input.nextLine();
+	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
+		MCQQuestion mcqQuestion = mcqDao.find(topic);
+		System.out.println("\n Your search result : \n");
+		System.out.println(mcqQuestion.toString());
+	}
+
 	
 	public void openMenu()
 	{
