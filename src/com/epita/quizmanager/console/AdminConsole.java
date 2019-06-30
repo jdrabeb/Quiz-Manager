@@ -120,12 +120,15 @@ public class AdminConsole {
 		System.out.print("Enter the topic to search.\n");
 		String topic = input.nextLine();
 	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
-		MCQQuestion mcqQuestion = mcqDao.find(topic);
-		System.out.println("\n Your search result : \n");
-		System.out.println(mcqQuestion.toString());
+		List<MCQQuestion> questions = new ArrayList<MCQQuestion>();
+		questions = mcqDao.find(topic);
+		System.out.println("\nYour search result : \n");
+		for (MCQQuestion question : questions)
+		{
+			System.out.println(question.toString());
+		}
 	}
 
-	
 	public void openMenu()
 	{
 		Scanner input = new Scanner(System.in);

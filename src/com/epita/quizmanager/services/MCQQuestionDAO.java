@@ -88,36 +88,34 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		  
 	}
 
-	public MCQQuestion find(String searchtopic)
+	public List<MCQQuestion> find(String searchtopic)
 	{
 		String question;
 		int difficulty;
 		Topic topic = new Topic(searchtopic);
 		try
 		{
+			List<MCQQuestion> questions = new ArrayList<MCQQuestion>();
 			PreparedStatement selectQuestionByTopic = connection.prepareStatement(SELECT_QUESTION_BY_TOPIC);
 			selectQuestionByTopic.setString(1, searchtopic);
 			ResultSet resultSet = selectQuestionByTopic.executeQuery();
-			if (resultSet.next())
+			while (resultSet.next())
 			{
 				question = resultSet.getString("question");
 				difficulty = resultSet.getInt("difficulty");
+				List<MCQChoice> choices = new ArrayList<MCQChoice>();
+				PreparedStatement selectChoices = connection.prepareStatement(SELECT_CHOICES_BY_QUESTION);
+				selectChoices.setString(1, question);
+				ResultSet rst = selectChoices.executeQuery();
+				while (rst.next())
+				{
+					MCQChoice choice = new MCQChoice(rst.getString("choice"), rst.getBoolean("isvalid"));
+					choices.add(choice);
+				}
+				MCQQuestion mcqQuestion = new MCQQuestion(question, difficulty, topic, choices);
+				questions.add(mcqQuestion);
 			}
-			else
-			{
-				return null;
-			}
-			List<MCQChoice> choices = new ArrayList<MCQChoice>();
-			PreparedStatement selectChoices = connection.prepareStatement(SELECT_CHOICES_BY_QUESTION);
-			selectChoices.setString(1, question);
-			ResultSet rst = selectChoices.executeQuery();
-			while (rst.next())
-			{
-				MCQChoice choice = new MCQChoice(rst.getString("choice"), rst.getBoolean("isvalid"));
-				choices.add(choice);
-			}
-			MCQQuestion mcqQuestion = new MCQQuestion(question, difficulty, topic, choices);
-			return mcqQuestion;
+			return questions;
 		}
 		catch (SQLException e)
 		{
