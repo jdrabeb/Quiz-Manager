@@ -1,26 +1,22 @@
 package com.epita.quizmanager.services;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.epita.quizmanager.entities.MCQChoice;
 import com.epita.quizmanager.entities.MCQQuestion;
-import com.epita.quizmanager.entities.Question;
-import com.epita.quizmanager.entities.QuestionType;
 
-package com.epita.quizmanager.services;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-import com.epita.quizmanager.entities.User;
 
 public class MCQQuestionDAO extends DAO<MCQQuestion>
 {
-	private final String INSERT_USER = "INSERT INTO USERS VALUES(NULL, ?, ?, ?, ?)";
+	private final String SELECT_TOPIC = "SELECT TOPIC FROM TOPICS WHERE TOPIC = ? ";
+	private final String SELECT_TOPIC_ID = "SELECT TOPIC_ID FROM TOPICS WHERE TOPIC = ? ";
+	private final String INSERT_TOPIC = "INSERT INTO TOPICS VALUES(NULL, ?)";
+	private final String INSERT_MCQQUESTION = "INSERT INTO MCQQUESTIONS VALUES(NULL, ?, ?, ?)";
+	private final String SELECT_QUESTIONID = "SELECT QUESTION_ID FROM MCQQUESTIONS WHERE QUESTION = ? ";
+	private final String INSERT_MCQCHOICES = "INSERT INTO MCQCHOICES VALUES(NULL, ?, ?, ?)";
 
 	public MCQQuestionDAO(Connection connection)
 	{
@@ -29,14 +25,49 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 
 	public void create(MCQQuestion mcqQuestion)
 	{
-		try {
-			PreparedStatement statement = connection.prepareStatement(INSERT_USER);
-			statement.setString(1, user.getName());
-			statement.setString(2, user.getPassword());
-			statement.setString(3, user.getId());
-			statement.setBoolean(4, user.isAdmin());
-			statement.execute();
-		} catch (SQLException e)
+		try
+		{
+			int topic_id = 0;
+			PreparedStatement selectTopicStatement = connection.prepareStatement(SELECT_TOPIC);
+			selectTopicStatement.setString(1, mcqQuestion.getTopic().getTitle());
+			ResultSet resultSet = selectTopicStatement.executeQuery();
+			if (!resultSet.next())
+			{
+				PreparedStatement insertQuestionStatement = connection.prepareStatement(INSERT_TOPIC);
+				insertQuestionStatement.setString(1, mcqQuestion.getTopic().getTitle());
+				insertQuestionStatement.executeUpdate();
+			}
+			PreparedStatement selectTopicIdStatement = connection.prepareStatement(SELECT_TOPIC_ID);
+			selectTopicIdStatement.setString(1, mcqQuestion.getTopic().getTitle());
+			resultSet = selectTopicIdStatement.executeQuery();
+			if (resultSet.next())
+			{
+				topic_id = resultSet.getInt(1);
+			}
+			PreparedStatement insertQuestionStatement = connection.prepareStatement(INSERT_MCQQUESTION);
+			insertQuestionStatement.setString(1, mcqQuestion.getContent());
+			insertQuestionStatement.setInt(2, mcqQuestion.getDifficulty());
+			insertQuestionStatement.setInt(3, topic_id);
+			insertQuestionStatement.executeUpdate();
+			int question_id = 0;
+			PreparedStatement selectIdStatement = connection.prepareStatement(SELECT_QUESTIONID);
+			selectIdStatement.setString(1, mcqQuestion.getContent());
+			resultSet = selectIdStatement.executeQuery();
+			if (resultSet.next())
+			{
+				question_id = resultSet.getInt(1);
+			}
+	System.out.println(question_id);
+			PreparedStatement insertChoicesstatement = connection.prepareStatement(INSERT_MCQCHOICES);
+			for (MCQChoice choice : mcqQuestion.getChoices())
+			{
+				insertChoicesstatement.setString(1, choice.getContent());
+				insertChoicesstatement.setBoolean(2, choice.isValid());
+				insertChoicesstatement.setInt(3, question_id);
+				insertChoicesstatement.execute();
+			}
+		}
+		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
@@ -52,80 +83,10 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		  
 	}
 
-	public MCQQuestion find(int id)
+	public MCQQuestion find(String topic)
 	{
 		return null;
 	}
 
 
 }
-
-//public class MCQQuestionDAO {
-//	
-//	private final String JDBC_PASSWORD = "";
-//	private final String JDBC_USER = "sa";
-//			final String JDBC_URL = "jdbc:h2:~/test";
-//
-//
-//	private Connection initConnection() throws SQLException
-//	{
-//		return DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
-//	}
-//	
-//	public void createQuestion(Question question)
-//	{
-//		try
-//		{
-//	        Class.forName("org.h2.Driver");
-//			Connection connection = initConnection();
-//			PreparedStatement statement = connection.prepareStatement("INSERT INTO QUESTIONS (QUESTION, DIFFICULTY, TYPE) VALUES(?,?,?)");
-//			statement.setString(1, question.getQuestion());
-//			statement.setInt(2, question.getDifficulty());
-//			statement.setString(3, question.getQuestionType().name());
-//			statement.execute();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		catch (ClassNotFoundException e) {
-//		    // TODO Auto-generated catch block
-//		    e.printStackTrace();
-//		   }
-//	}
-//	
-//	public void createMCQQuestion(MCQQuestion mcqQuestion)
-//	{
-//		int questionId = 0;
-//		Question question = new Question (mcqQuestion.getQuestion(), mcqQuestion.getDifficulty(), mcqQuestion.getQuestionType());
-//		createQuestion(question);
-//		try
-//		{
-//	        Class.forName("org.h2.Driver");
-//			Connection connection = initConnection();
-////			PreparedStatement selectStatement = connection.prepareStatement("SELECT QUESTION_ID FROM QUESTIONS WHERE QUESTION = ? AND DIFFICULTY = ? AND TYPE = ?");
-////			selectStatement.setString(1, question.getQuestion());
-////			selectStatement.setInt(2, question.getDifficulty());
-////			selectStatement.setString(3, question.getQuestionType().name());
-////			ResultSet rs = selectStatement.executeQuery();
-////			while (rs.next())
-////			{
-////				questionId = rs.getInt(1);
-////				System.out.println(questionId);
-////			}
-////			System.out.println(questionId);
-//			PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO MCQ_QUESTION (QUESTION_ID, CHOICE_1, CHOICE_2, CHOICE_3, ANSWER) VALUES(?,?,?,?,?)");
-//			insertStatement.setInt(1, questionId);
-//			insertStatement.setString(2, mcqQuestion.getAnswer());
-//			insertStatement.setString(3, mcqQuestion.getFirstChoice());
-//			insertStatement.setString(4, mcqQuestion.getSecondChoice());
-//			insertStatement.setString(5, mcqQuestion.getThirdChoice());
-//			insertStatement.execute();
-//			
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		catch (ClassNotFoundException e) {
-//		    // TODO Auto-generated catch block
-//		    e.printStackTrace();
-//		   }
-//	}
-//}

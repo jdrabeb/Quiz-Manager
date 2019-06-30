@@ -1,6 +1,15 @@
 package com.epita.quizmanager.console;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
+import com.epita.quizmanager.entities.MCQChoice;
+import com.epita.quizmanager.entities.MCQQuestion;
+import com.epita.quizmanager.entities.Topic;
+import com.epita.quizmanager.services.DAO;
+import com.epita.quizmanager.services.DBConnection;
+import com.epita.quizmanager.services.MCQQuestionDAO;
 
 public class AdminConsole {
 		
@@ -56,6 +65,7 @@ public class AdminConsole {
     		switch(choice)
     		{
     		case 1:
+    			createMcqQuestionMenu();
     			break;
     		case 2:
     			break;
@@ -71,8 +81,40 @@ public class AdminConsole {
     			break;
     		}
     	}
+    	input.close();
 	}
 
+	public void createMcqQuestionMenu()
+	{
+		//TODO : Add exceptions to manage type mismatch.
+		List<MCQChoice> choices = new ArrayList<MCQChoice>();
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter your question.\n");
+		String question = input.nextLine();
+		System.out.print("Enter the difficulty of your question.\n");
+		int difficulty = input.nextInt();
+	    input.nextLine();
+		System.out.print("Enter the topic of your question.\n");
+		String topicContent = input.nextLine();
+		Topic topic = new Topic(topicContent);
+		System.out.print("Enter the number of choices.\n");
+		int nbChoices = input.nextInt();
+	    input.nextLine();
+		for (int i = 1; i <= nbChoices; i++) {
+    		System.out.print("Enter the choice number " + i + ". \n" );
+    		String content = input.nextLine();	
+    		System.out.print("Is this the right choice ? true/false");
+    		boolean isValid = input.nextBoolean();
+    	    input.nextLine();
+    		MCQChoice choice = new MCQChoice(content, isValid);
+    		choices.add(choice);
+		}
+		MCQQuestion mcqQuestion = new MCQQuestion(question, difficulty, topic, choices);
+	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
+		mcqDao.create(mcqQuestion);
+		input.close();
+	}
+	
 	public void openMenu()
 	{
 		Scanner input = new Scanner(System.in);

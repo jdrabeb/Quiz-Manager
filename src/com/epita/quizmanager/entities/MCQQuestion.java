@@ -12,6 +12,11 @@ public class MCQQuestion extends Question
 		this.choices = choices;
 	}
 	
+	public List<MCQChoice> getChoices()
+	{
+		return choices;
+	}
+	
 	@Override
 	public String toString()
 	{
