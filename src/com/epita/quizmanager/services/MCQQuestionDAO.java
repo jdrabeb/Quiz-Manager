@@ -106,10 +106,11 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 				PreparedStatement deleteQuestionStatement = connection.prepareStatement(DELETE_MCQUESTION);
 				deleteQuestionStatement.setString(1, question);
 				deleteQuestionStatement.executeUpdate();
+				System.out.println("\n" + question + " was deleted succesfully.\n");
 			}
 			else
 			{
-				System.out.println("The question you want to delete doesn't exist");
+				System.out.println("\nThe question you want to delete doesn't exist\n");
 			}
 		}
 		catch (SQLException e)
