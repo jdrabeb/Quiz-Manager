@@ -3,6 +3,7 @@ package com.epita.quizmanager.tests;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.epita.quizmanager.console.AdminConsole;
 import com.epita.quizmanager.entities.MCQChoice;
 import com.epita.quizmanager.entities.MCQQuestion;
 import com.epita.quizmanager.entities.Question;
@@ -24,15 +25,17 @@ public class DAOQuestionMain {
 //	    DAO<User> userDao = new UserDAO(DBConnection.getInstance());
 //		User student = new User("francis", "test2", "x13", true);
 //		userDao.create(student);
-		MCQChoice choice1 = new MCQChoice("choice1", false);
-		MCQChoice choice2 = new MCQChoice("choice2", true);
-		MCQChoice choice3 = new MCQChoice("choice3", false);
-		List<MCQChoice> choices = new ArrayList<MCQChoice>();
-		choices.add(choice1);
-		choices.add(choice2);
-		choices.add(choice3);
-		Topic test = new Topic("test");
-		MCQQuestion mcqQuestion= new MCQQuestion("This is a question?", 0, test, choices);
-		System.out.println(mcqQuestion.toString());
-	}
+//		MCQChoice choice1 = new MCQChoice("choice1", false);
+//		MCQChoice choice2 = new MCQChoice("choice2", true);
+//		MCQChoice choice3 = new MCQChoice("choice3", false);
+//		List<MCQChoice> choices = new ArrayList<MCQChoice>();
+//		choices.add(choice1);
+//		choices.add(choice2);
+//		choices.add(choice3);
+//		Topic test = new Topic("test");
+//		MCQQuestion mcqQuestion= new MCQQuestion("This is a question?", 0, test, choices);
+//		System.out.println(mcqQuestion.toString());
+		AdminConsole console = new AdminConsole();
+		console.start();
+		}
 }
