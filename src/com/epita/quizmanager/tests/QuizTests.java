@@ -32,10 +32,14 @@ public class QuizTests {
 		mcqDao.create(mcqQuestion);
 	}
 	
+	public static void testAdminConsoleMenu()
+	{
+		AdminConsole console = new AdminConsole();
+		console.start();
+	}
+	
 	public static void main(String[] args)
 	{
-		testCreateMCQQuestion();
-//		AdminConsole console = new AdminConsole();
-//		console.start();
+		testAdminConsoleMenu();
 		}
 }

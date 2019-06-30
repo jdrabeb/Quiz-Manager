@@ -27,7 +27,6 @@ public class AdminConsole {
 	        System.out.print("3.) Exit\n");
 	        System.out.print("\nEnter Your Menu Choice: ");
 	        choice = input.nextInt();
-	        
 	        switch(choice)
 	        {
 	        case 1:
@@ -81,7 +80,6 @@ public class AdminConsole {
     			break;
     		}
     	}
-    	input.close();
 	}
 
 	public void createMcqQuestionMenu()
@@ -95,14 +93,14 @@ public class AdminConsole {
 		int difficulty = input.nextInt();
 	    input.nextLine();
 		System.out.print("Enter the topic of your question.\n");
-		String topicContent = input.nextLine();
+		String topicContent = input.nextLine().toLowerCase();
 		Topic topic = new Topic(topicContent);
 		System.out.print("Enter the number of choices.\n");
 		int nbChoices = input.nextInt();
 	    input.nextLine();
 		for (int i = 1; i <= nbChoices; i++) {
     		System.out.print("Enter the choice number " + i + ". \n" );
-    		String content = input.nextLine();	
+    		String content = input.nextLine();
     		System.out.print("Is this the right choice ? true/false");
     		boolean isValid = input.nextBoolean();
     	    input.nextLine();
@@ -112,7 +110,6 @@ public class AdminConsole {
 		MCQQuestion mcqQuestion = new MCQQuestion(question, difficulty, topic, choices);
 	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
 		mcqDao.create(mcqQuestion);
-		input.close();
 	}
 	
 	public void openMenu()
