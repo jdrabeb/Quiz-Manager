@@ -23,6 +23,12 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 
 	private final String SELECT_QUESTION_BY_TOPIC = "SELECT * FROM MCQQUESTIONS Q INNER JOIN TOPICS T ON Q.TOPIC_ID= T.TOPIC_ID WHERE T.TOPIC = ?";
 	private final String SELECT_CHOICES_BY_QUESTION = "SELECT CHOICE, ISVALID FROM MCQCHOICES C INNER JOIN MCQQUESTIONS Q ON C.QUESTION_ID= Q.QUESTION_ID WHERE Q.QUESTION= ?";
+	
+	private final String UPDATE_MCQQUESTION = "SELECT CHOICE, ISVALID FROM MCQCHOICES C INNER JOIN MCQQUESTIONS Q ON C.QUESTION_ID= Q.QUESTION_ID WHERE Q.QUESTION= ?";
+	
+	private final String DELETE_MCQCHOICE = "DELETE FROM MCQCHOICES WHERE QUESTION_ID= ?";
+	private final String DELETE_MCQUESTION = "DELETE FROM MCQQUESTIONS WHERE QUESTION= ?";
+	
 	public MCQQuestionDAO(Connection connection)
 	{
 		super(connection);
@@ -62,7 +68,6 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 			{
 				question_id = resultSet.getInt(1);
 			}
-	System.out.println(question_id);
 			PreparedStatement insertChoicesstatement = connection.prepareStatement(INSERT_MCQCHOICES);
 			for (MCQChoice choice : mcqQuestion.getChoices())
 			{
@@ -83,9 +88,34 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		
 	}
 
-	public void delete(MCQQuestion mcqQuestion)
+	public void delete(String question)
 	{
-		  
+		try
+		{
+			int question_id = 0;
+			PreparedStatement selectIdStatement = connection.prepareStatement(SELECT_QUESTIONID);
+			selectIdStatement.setString(1, question);
+			ResultSet resultSet = selectIdStatement.executeQuery();
+			if (resultSet.next())
+			{
+				question_id = resultSet.getInt(1);
+				System.out.println(question_id);
+				PreparedStatement deleteChoiceStatement = connection.prepareStatement(DELETE_MCQCHOICE);
+				deleteChoiceStatement.setInt(1, question_id);
+				deleteChoiceStatement.executeUpdate();
+				PreparedStatement deleteQuestionStatement = connection.prepareStatement(DELETE_MCQUESTION);
+				deleteQuestionStatement.setString(1, question);
+				deleteQuestionStatement.executeUpdate();
+			}
+			else
+			{
+				System.out.println("The question you want to delete doesn't exist");
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public List<MCQQuestion> find(String searchtopic)

@@ -73,6 +73,7 @@ public class AdminConsole {
     		case 3:
     			break;
     		case 4:
+    			deleteMcqQuestionMenu();
     			break;
     		case 5:
 	        	mcqMenuLoop = false;
@@ -129,6 +130,15 @@ public class AdminConsole {
 		}
 	}
 
+	public void deleteMcqQuestionMenu()
+	{
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter the question to delete.\n");
+		String question = input.nextLine();
+	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
+		mcqDao.delete(question);
+	}
+	
 	public void openMenu()
 	{
 		Scanner input = new Scanner(System.in);
