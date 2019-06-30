@@ -5,25 +5,25 @@
 
 package com.epita.quizmanager.entities;
 
-import java.util.List;
-
-public class Question
+public abstract class Question
 {
-	private String question;
+	private String content;
 	private int difficulty;
-//	private List<Topic> topics;
-	private QuestionType type;
+	private Topic topic;
 	
-	public Question (String question, int difficulty, QuestionType type)
+	public Question (String content, int difficulty, Topic topic)
 	{
-		this.question = question;
+		this.content= content;
 		this.difficulty = difficulty;
-		this.type = type;
+		this.topic = topic;
 	}
 	
-	public String getQuestion ()
+	@Override
+	public abstract String toString();
+	
+	public String getContent ()
 	{
-		return question;
+		return content;
 	}
 	
 	public int getDifficulty ()
@@ -31,34 +31,23 @@ public class Question
 		return difficulty;
 	}
 	
-//	public List<Topic> getTopics ()
-//	{
-//		return topics;
-//	}
-	
-	public QuestionType getQuestionType ()
+	public Topic getTopic ()
 	{
-		return type;
+		return topic;
 	}
 	
-	public void setQuestion (String question)
+	public void setContent(String content)
 	{
-		this.question = question;
+		this.content = content;
 	}
 	
-	public void setDifficulty (int difficulty)
+	public void setDifficulty(int difficulty)
 	{
 		this.difficulty = difficulty;
 	}
 	
-//	public void setTopics (List<Topic> topics)
-//	{
-//		this.topics = topics;
-//	}
-	
-	public void setType (QuestionType type)
+	public void setTopic(Topic topic)
 	{
-		this.type = type;
+		this.topic = topic;
 	}
-	
 }

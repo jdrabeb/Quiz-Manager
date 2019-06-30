@@ -1,71 +1,28 @@
 package com.epita.quizmanager.entities;
 
+import java.util.List;
+
 public class MCQQuestion extends Question
 {
-	String correctAnswer;
-	String firstChoice;
-	String secondChoice;
-	String thirdChoice;
-	String answer;
-
-	public MCQQuestion(String question, int difficulty, QuestionType type, 
-			String correctAnswer, String firstChoice, String secondChoice,
-			String thirdChoice)
+	private List<MCQChoice> choices;
+	
+	public MCQQuestion(String question, int difficulty, Topic topic, List<MCQChoice> choices)
 	{
-		super(question, difficulty, type);
-		this.firstChoice = firstChoice;
-		this.secondChoice = secondChoice;
-		this.thirdChoice = thirdChoice;
-		this.correctAnswer = correctAnswer;
+		super(question, difficulty, topic);
+		this.choices = choices;
 	}
 	
-	public void setCorrectAnswer (String correctAnswer)
+	@Override
+	public String toString()
 	{
-		this.correctAnswer = correctAnswer;
-	}
-
-	public void setFirstChoice (String firstChoice)
-	{
-		this.firstChoice = firstChoice;
-	}
-	
-	public void setSecondChoice (String secondChoice)
-	{
-		this.secondChoice = secondChoice;
-	}
-
-	public void setThirdChoice (String thirdChoice)
-	{
-		this.thirdChoice = thirdChoice;
-	}
-	
-	public void setAnswer (String answer)
-	{
-		this.answer = answer;
-	}
-	
-	public String getCorrectAnswer ()
-	{
-		return correctAnswer;
-	}
-
-	public String getFirstChoice ()
-	{
-		return firstChoice;
-	}
-	
-	public String getSecondChoice ()
-	{
-		return secondChoice;
-	}
-
-	public String getThirdChoice ()
-	{
-		return thirdChoice;
-	}
-	
-	public String getAnswer ()
-	{
-		return answer;
+		String toString = "Question: " + this.getContent() + "\nDifficulty: " + Integer.toString(this.getDifficulty()) +
+				"\nTopic: " + this.getTopic().getTitle() + '\n';
+		int index = 0;
+		for (MCQChoice choice : choices)
+		{
+			index += 1;
+			toString = toString + "Choice " + index + ": " + choice.getContent() + "\n"; 
+		}
+		return toString;
 	}
 }
