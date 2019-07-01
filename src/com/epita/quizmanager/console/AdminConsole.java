@@ -71,6 +71,7 @@ public class AdminConsole {
     			searchMcqQuestionMenu();
     			break;
     		case 3:
+    			updateMcqQuestionMenu();
     			break;
     		case 4:
     			deleteMcqQuestionMenu();
@@ -132,11 +133,47 @@ public class AdminConsole {
 
 	public void updateMcqQuestionMenu()
 	{
-//		Scanner input = new Scanner(System.in);
-//		System.out.print("Enter the question to update.\n");
-//		String question = input.nextLine();
-//	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
-//		mcqDao.delete(question);
+		Scanner input = new Scanner(System.in);
+	    MCQQuestionDAO mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
+	    int error = mcqDao.displayQuestions();
+	    if (error == 0)
+	    {
+			System.out.print("Enter the question_id of the question to update.\n");
+			System.out.print("Enter 0 to go back.\n");
+			int question_id = input.nextInt();
+			if (question_id == 0)
+			{
+				return;
+			}
+			System.out.print("What do you want to upadte.\n");
+			System.out.print("1) Question title.\n");
+			System.out.print("2) difficulty.\n");
+			System.out.print("3) Back.\n");
+    		int choice = input.nextInt();
+    		switch(choice)
+    		{
+    		case 1:
+    			System.out.print("Enter the new question title.\n");
+    			input.nextLine();
+        		String newQuestion = input.nextLine();
+    			mcqDao.updateQuestion(question_id, newQuestion);
+    			break;
+    		case 2:
+    			System.out.print("Enter the new difficulty.\n");
+        		int newDifficulty = input.nextInt();
+    			mcqDao.updateDifficulty(question_id, newDifficulty);
+    			break;
+    		case 3:
+    			break;
+    		default:
+	        	System.out.println("\nInvalid choice, try again.\n");
+    			break;
+    		}
+	    }
+	    else
+	    {
+			System.out.print("No question to update.\n");
+	    }
 	}
 	
 	public void deleteMcqQuestionMenu()
