@@ -17,6 +17,11 @@ public class MCQQuestion extends Question
 		return choices;
 	}
 	
+	public int numberOfChoices()
+	{
+		return choices.size();
+	}
+	
 	@Override
 	public String toString()
 	{
@@ -26,7 +31,7 @@ public class MCQQuestion extends Question
 		for (MCQChoice choice : choices)
 		{
 			index += 1;
-			toString = toString + "Choice " + index + ": " + choice.getContent() + "\n"; 
+			toString = toString + index + ") " + choice.getContent() + "\n"; 
 		}
 		return toString;
 	}

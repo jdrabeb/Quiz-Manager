@@ -16,7 +16,7 @@ public class Evaluation {
 		this.quiz = quiz;
 		mcqQuestions = quiz.getMcqQuestions();
 	}
-	
+
 	public getNextQuestion()
 	{
 		

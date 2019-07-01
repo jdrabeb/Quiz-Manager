@@ -1,5 +1,8 @@
 package com.epita.quizmanager.entities;
 
+/**
+ * Represents a user which can be an Admin or a student.
+ */
 public class User
 {
 	private String name;
