@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.epita.quizmanager.entities.MCQAnswer;
 import com.epita.quizmanager.entities.MCQQuestion;
 import com.epita.quizmanager.entities.Quiz;
 import com.epita.quizmanager.entities.Topic;
@@ -27,18 +28,8 @@ public class StudentConsole {
 			topics.add(topic);
 		}
 		Quiz quiz = new Quiz(topics);
-		for (MCQQuestion question : quiz.getMcqQuestions())
-		{
-			System.out.print(question.toString());
-			int nbChoices = question.numberOfChoices();
-			int answer;
-			do
-			{ 
-				System.out.print("\nEnter your answer:\n");
-				answer = input.nextInt();
-				input.nextLine();
-			} while (answer < 1 || answer > nbChoices);
-			
-		}
+		MCQAnswer answers = new MCQAnswer();
+		answers.getAnswers(quiz.getMcqQuestions());
+		int grade = answers.calculateGrade(quiz.getMcqQuestions());
 	}
 }
