@@ -8,7 +8,12 @@ public class MCQAnswer {
 	
 	List<MCQChoice> answers = new ArrayList<MCQChoice>();
 	
-	public List<MCQChoice> getAnswers(List<MCQQuestion> questions)
+	public List<MCQChoice> getAnswers()
+	{
+		return answers;
+	}
+	
+	public void setAnswers(List<MCQQuestion> questions)
 	{
 		//TODO : Several answers
 		for (MCQQuestion question : questions)
@@ -25,7 +30,6 @@ public class MCQAnswer {
 			} while (answer < 1 || answer > nbChoices);
 			answers.add(question.getChoices().get(answer - 1));
 		}
-		return answers;
 	}
 	
 	public int calculateGrade(List<MCQQuestion> questions)

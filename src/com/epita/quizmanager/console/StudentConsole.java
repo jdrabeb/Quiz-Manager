@@ -4,14 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.epita.quizmanager.entities.Evaluation;
 import com.epita.quizmanager.entities.MCQAnswer;
 import com.epita.quizmanager.entities.MCQQuestion;
 import com.epita.quizmanager.entities.Quiz;
 import com.epita.quizmanager.entities.Topic;
+import com.epita.quizmanager.entities.User;
 import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
 
 public class StudentConsole {
+	private User student;
+	
+	public StudentConsole(User student)
+	{
+		this.student = student;
+	}
+	
 	public void start()
 	{
 		List<Topic> topics = new ArrayList<Topic>();
@@ -28,8 +37,8 @@ public class StudentConsole {
 			topics.add(topic);
 		}
 		Quiz quiz = new Quiz(topics);
-		MCQAnswer answers = new MCQAnswer();
-		answers.getAnswers(quiz.getMcqQuestions());
-		int grade = answers.calculateGrade(quiz.getMcqQuestions());
-	}
+		Evaluation eval = new Evaluation(student, quiz);
+		eval.startEvaluation(topics);
+		//eval.exportToPdf();
+		}
 }

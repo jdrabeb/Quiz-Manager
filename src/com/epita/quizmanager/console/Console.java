@@ -24,7 +24,7 @@ public class Console {
 			}
 			else
 			{
-				StudentConsole studentConsole = new StudentConsole();
+				StudentConsole studentConsole = new StudentConsole(user);
 				studentConsole.start();
 			}
 				
