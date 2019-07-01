@@ -25,6 +25,8 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 	private final String SELECT_CHOICES_BY_QUESTION = "SELECT CHOICE, ISVALID FROM MCQCHOICES C INNER JOIN MCQQUESTIONS Q ON C.QUESTION_ID= Q.QUESTION_ID WHERE Q.QUESTION= ?";
 	
 	private final String SELECT_MCQQUESTIONS = "SELECT QUESTION_ID, QUESTION FROM MCQQUESTIONS";
+	private final String SELECT_ALLTOPICS = "SELECT TOPIC FROM TOPICS";
+
 	
 	private final String UPDATE_MCQQUESTION = "UPDATE MCQQUESTIONS SET QUESTION = ? WHERE QUESTION_ID = ?";
 	private final String UPDATE_DIFFICULTY = "UPDATE MCQQUESTIONS SET DIFFICULTY = ? WHERE QUESTION_ID = ?";	
@@ -132,12 +134,45 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 				System.out.println("\nThere are no MCQQuestions.");
 				return 1;
 			}
-			System.out.println("\nAll the available MCQQuestions.\n");
-			while (resultSet.next())
+			else
 			{
-				System.out.println("Question id: " + resultSet.getInt("question_id") + ", Question: " + resultSet.getString("question") + "\n");
+				System.out.println("\nAll the available MCQQuestions.\n");
+				do
+				{
+					System.out.println("Question id: " + resultSet.getInt("question_id") + ", Question: " + resultSet.getString("question") + "\n");
+				}
+				while (resultSet.next());
+				return 0;
 			}
-			return 0;
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return 1;
+	}
+	
+	public int displayTopics()
+	{
+		try
+		{
+			PreparedStatement selectTopicsStatement = connection.prepareStatement(SELECT_ALLTOPICS);
+			ResultSet resultSet = selectTopicsStatement.executeQuery();	
+			if (!resultSet.next())
+			{
+				System.out.println("\nThere are no Topics.");
+				return 1;
+			}
+			else
+			{
+				System.out.println("\nAll the available Topics:\n");
+				do
+				{
+					System.out.println(resultSet.getString("topic"));
+				}
+				while (resultSet.next());
+				return 0;
+			}
 		}
 		catch (SQLException e)
 		{

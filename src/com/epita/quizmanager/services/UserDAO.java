@@ -37,7 +37,7 @@ public class UserDAO extends DAO<User> {
 		}
 	}
 
-	public void update(User user, User newUser)
+	public void update(int user_id, User newUser)
 	{
 		
 	}
