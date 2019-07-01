@@ -6,10 +6,12 @@ import java.util.Scanner;
 
 import com.epita.quizmanager.entities.MCQChoice;
 import com.epita.quizmanager.entities.MCQQuestion;
+import com.epita.quizmanager.entities.OpenQuestion;
 import com.epita.quizmanager.entities.Topic;
 import com.epita.quizmanager.services.DAO;
 import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
+import com.epita.quizmanager.services.OpenQuestionDAO;
 
 public class AdminConsole {
 		
@@ -145,7 +147,7 @@ public class AdminConsole {
 			{
 				return;
 			}
-			System.out.print("What do you want to upadte.\n");
+			System.out.print("What do you want to update.\n");
 			System.out.print("1) Question title.\n");
 			System.out.print("2) difficulty.\n");
 			System.out.print("3) Back.\n");
@@ -178,11 +180,24 @@ public class AdminConsole {
 	
 	public void deleteMcqQuestionMenu()
 	{
+	    MCQQuestionDAO mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
 		Scanner input = new Scanner(System.in);
-		System.out.print("Enter the question to delete.\n");
-		String question = input.nextLine();
-	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
-		mcqDao.delete(question);
+	    int error = mcqDao.displayQuestions();
+	    if (error == 0)
+	    {
+			System.out.print("Enter the question_id of the question to delete.\n");
+			System.out.print("Enter 0 to go back.\n");
+			int question_id = input.nextInt();
+			if (question_id == 0)
+			{
+				return;
+			}
+			mcqDao.delete(question_id);
+	    }
+	    else
+	    {
+			System.out.print("No question to delete.\n");
+	    }
 	}
 	
 	public void openMenu()
@@ -203,12 +218,16 @@ public class AdminConsole {
     		switch(choice)
     		{
     		case 1:
+    			createOpenQuestionMenu();
     			break;
     		case 2:
+    			searchOpenQuestionMenu();
     			break;
     		case 3:
+    			updateOpenQuestionMenu();
     			break;
     		case 4:
+    			deleteOpenQuestionMenu();
     			break;
     		case 5:
     			openMenuLoop = false;
@@ -219,4 +238,105 @@ public class AdminConsole {
     		}
     	}
 	}
+	
+	public void createOpenQuestionMenu()
+	{
+		//TODO : Add exceptions to manage type mismatch.
+		List<MCQChoice> choices = new ArrayList<MCQChoice>();
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter your question.\n");
+		String question = input.nextLine();
+		System.out.print("Enter the difficulty of your question.\n");
+		int difficulty = input.nextInt();
+	    input.nextLine();
+		System.out.print("Enter the topic of your question.\n");
+		String topicContent = input.nextLine().toLowerCase();
+		Topic topic = new Topic(topicContent);
+		OpenQuestion openQuestion = new OpenQuestion(question, difficulty, topic);
+	    DAO<OpenQuestion> openDao = new OpenQuestionDAO(DBConnection.getInstance());
+		openDao.create(openQuestion);
+	}
+	
+	public void searchOpenQuestionMenu()
+	{
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter the topic to search.\n");
+		String topic = input.nextLine();
+	    DAO<OpenQuestion> openDao = new OpenQuestionDAO(DBConnection.getInstance());
+		List<OpenQuestion> questions = new ArrayList<OpenQuestion>();
+		questions = openDao.find(topic);
+		System.out.println("\nYour search result : \n");
+		for (OpenQuestion question : questions)
+		{
+			System.out.println(question.toString());
+		}
+	}
+
+	public void updateOpenQuestionMenu()
+	{
+		Scanner input = new Scanner(System.in);
+	    OpenQuestionDAO openDao = new OpenQuestionDAO(DBConnection.getInstance());
+	    int error = openDao.displayQuestions();
+	    if (error == 0)
+	    {
+			System.out.print("Enter the question_id of the question to update.\n");
+			System.out.print("Enter 0 to go back.\n");
+			int question_id = input.nextInt();
+			if (question_id == 0)
+			{
+				return;
+			}
+			System.out.print("What do you want to update.\n");
+			System.out.print("1) Question title.\n");
+			System.out.print("2) difficulty.\n");
+			System.out.print("3) Back.\n");
+    		int choice = input.nextInt();
+    		switch(choice)
+    		{
+    		case 1:
+    			System.out.print("Enter the new question title.\n");
+    			input.nextLine();
+        		String newQuestion = input.nextLine();
+    			openDao.updateQuestion(question_id, newQuestion);
+    			break;
+    		case 2:
+    			System.out.print("Enter the new difficulty.\n");
+        		int newDifficulty = input.nextInt();
+    			openDao.updateDifficulty(question_id, newDifficulty);
+    			break;
+    		case 3:
+    			break;
+    		default:
+	        	System.out.println("\nInvalid choice, try again.\n");
+    			break;
+    		}
+	    }
+	    else
+	    {
+			System.out.print("No question to update.\n");
+	    }
+	}
+	
+	public void deleteOpenQuestionMenu()
+	{
+	    OpenQuestionDAO openDao = new OpenQuestionDAO(DBConnection.getInstance());
+		Scanner input = new Scanner(System.in);
+	    int error = openDao.displayQuestions();
+	    if (error == 0)
+	    {
+			System.out.print("Enter the question_id of the question to delete.\n");
+			System.out.print("Enter 0 to go back.\n");
+			int question_id = input.nextInt();
+			if (question_id == 0)
+			{
+				return;
+			}
+			openDao.delete(question_id);
+	    }
+	    else
+	    {
+			System.out.print("No question to update.\n");
+	    }
+	}
+	
 }

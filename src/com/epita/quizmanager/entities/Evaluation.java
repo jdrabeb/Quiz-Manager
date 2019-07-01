@@ -1,15 +1,11 @@
 package com.epita.quizmanager.entities;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.epita.quizmanager.services.PDFFormatter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 
 public class Evaluation {
 	private User user;
@@ -64,10 +60,4 @@ public class Evaluation {
 		pdfFormat.addGrade(document, grade);
 		pdfFormat.closeDocument(document);
 	}
-	
-	
-	
-	
-	
-	
 }

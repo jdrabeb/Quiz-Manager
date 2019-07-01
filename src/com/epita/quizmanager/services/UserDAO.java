@@ -42,7 +42,7 @@ public class UserDAO extends DAO<User> {
 		
 	}
 
-	public void delete(String username)
+	public void delete(int user_id)
 	{
 		  
 	}

@@ -32,7 +32,7 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 	private final String UPDATE_DIFFICULTY = "UPDATE MCQQUESTIONS SET DIFFICULTY = ? WHERE QUESTION_ID = ?";	
 	
 	private final String DELETE_MCQCHOICE = "DELETE FROM MCQCHOICES WHERE QUESTION_ID= ?";
-	private final String DELETE_MCQUESTION = "DELETE FROM MCQQUESTIONS WHERE QUESTION= ?";
+	private final String DELETE_MCQUESTION = "DELETE FROM MCQQUESTIONS WHERE QUESTION_ID= ?";
 	
 	public MCQQuestionDAO(Connection connection)
 	{
@@ -181,31 +181,18 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		return 1;
 	}
 	
-	
-	public void delete(String question)
+	public void delete(int question_id)
 	{
 		try
 		{
-			int question_id = 0;
-			PreparedStatement selectIdStatement = connection.prepareStatement(SELECT_QUESTIONID);
-			selectIdStatement.setString(1, question);
-			ResultSet resultSet = selectIdStatement.executeQuery();
-			if (resultSet.next())
-			{
-				question_id = resultSet.getInt(1);
-				System.out.println(question_id);
-				PreparedStatement deleteChoiceStatement = connection.prepareStatement(DELETE_MCQCHOICE);
-				deleteChoiceStatement.setInt(1, question_id);
-				deleteChoiceStatement.executeUpdate();
-				PreparedStatement deleteQuestionStatement = connection.prepareStatement(DELETE_MCQUESTION);
-				deleteQuestionStatement.setString(1, question);
-				deleteQuestionStatement.executeUpdate();
-				System.out.println("\n" + question + " was deleted succesfully.\n");
-			}
-			else
-			{
-				System.out.println("\nThe question you want to delete doesn't exist\n");
-			}
+			PreparedStatement deleteChoiceStatement = connection.prepareStatement(DELETE_MCQCHOICE);
+			deleteChoiceStatement.setInt(1, question_id);
+			deleteChoiceStatement.executeUpdate();
+			PreparedStatement deleteQuestionStatement = connection.prepareStatement(DELETE_MCQUESTION);
+			deleteQuestionStatement.setInt(1, question_id);
+			deleteQuestionStatement.executeUpdate();
+			System.out.println("\nThe question was deleted succesfully.\n");
+
 		}
 		catch (SQLException e)
 		{

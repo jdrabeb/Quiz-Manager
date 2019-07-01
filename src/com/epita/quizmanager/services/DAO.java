@@ -14,7 +14,7 @@ public abstract class DAO<T> {
 
   public abstract void update(int obj_id, T newObj);
 
-  public abstract void delete(String value);
+  public abstract void delete(int obj_id);
 
   public abstract List<T> find(String value);
 }

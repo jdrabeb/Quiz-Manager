@@ -42,7 +42,8 @@ public class QuizTests {
 
 	public static void testStudentConsoleMenu()
 	{
-		StudentConsole studentConsole = new StudentConsole();
+		User student = new User("test", "password", "id", false);
+		StudentConsole studentConsole = new StudentConsole(student);
 		studentConsole.start();
 	}
 	
@@ -54,6 +55,6 @@ public class QuizTests {
 	
 	public static void main(String[] args)
 	{
-		testConsoleMenu();
+		testAdminConsoleMenu();
 	}
 }
