@@ -4,7 +4,7 @@ public class OpenQuestion extends Question{
 	
 	public OpenQuestion(String question, int difficulty, Topic topic)
 	{
-		super(question, difficulty, topic);
+		super(question, difficulty, topic, QuestionType.Open);
 	}
 	
 	@Override

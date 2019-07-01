@@ -6,27 +6,34 @@ import java.util.List;
 import com.epita.quizmanager.services.DAO;
 import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
+import com.epita.quizmanager.services.OpenQuestionDAO;
 
 public class Quiz {
 	
 	private List<Topic> topics = new ArrayList<Topic>();
-	private List<MCQQuestion> mcqQuestions = new ArrayList<MCQQuestion>();
+	//TODO : make one list List<Question>
+	private List<Question> questions = new ArrayList<Question>();
 
 	public Quiz(List<Topic> topics)
 	{
 		this.topics = topics;
 	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
-		List<MCQQuestion> foundQuestions = new ArrayList<MCQQuestion>();
+		List<MCQQuestion> foundMcqQuestions = new ArrayList<MCQQuestion>();
+	    DAO<OpenQuestion> openDao = new OpenQuestionDAO(DBConnection.getInstance());
+		List<OpenQuestion> foundOpenQuestions = new ArrayList<OpenQuestion>();
+
 		for (Topic topic: topics)
 		{
-			foundQuestions = mcqDao.find(topic.getTitle());
-			mcqQuestions.addAll(foundQuestions);
+			foundMcqQuestions = mcqDao.find(topic.getTitle());
+			questions.addAll(foundMcqQuestions);
+			foundOpenQuestions = openDao.find(topic.getTitle());
+			questions.addAll(foundOpenQuestions);
 		}
 	}
 	
-	public List<MCQQuestion> getMcqQuestions()
+	public List<Question> getQuestions()
 	{
-		return mcqQuestions;
+		return questions;
 	}
 	
 	@Override
@@ -34,10 +41,10 @@ public class Quiz {
 	{
 		String toString = "";
 		int index = 0;
-		for (MCQQuestion mcqQuestion : mcqQuestions)
+		for (Question question : questions)
 		{
 			index++;
-			toString = toString + "Question " + index + ": \n\n" + mcqQuestion.toString() + "\n";
+			toString = toString + "Question " + index + ": \n\n" + question.toString() + "\n";
 		}
 		return toString;
 	}

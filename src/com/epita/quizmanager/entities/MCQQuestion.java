@@ -8,7 +8,7 @@ public class MCQQuestion extends Question
 	
 	public MCQQuestion(String question, int difficulty, Topic topic, List<MCQChoice> choices)
 	{
-		super(question, difficulty, topic);
+		super(question, difficulty, topic, QuestionType.MCQ);
 		this.choices = choices;
 	}
 	

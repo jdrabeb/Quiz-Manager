@@ -55,6 +55,6 @@ public class QuizTests {
 	
 	public static void main(String[] args)
 	{
-		testAdminConsoleMenu();
+		testStudentConsoleMenu();
 	}
 }

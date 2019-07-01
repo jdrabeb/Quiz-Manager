@@ -9,6 +9,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
 
 public class PDFFormatter {
 	
@@ -48,15 +49,17 @@ public class PDFFormatter {
         preface.add(new Paragraph(title, catFont));
         addEmptyLine(preface, 1);
         preface.add(new Paragraph("Quiz taken by: " + studentName + ", " + new Date(), smallBold));
-        addEmptyLine(preface, 3);
+        preface.add(new LineSeparator());
+        addEmptyLine(preface, 2);
         document.add(preface);
     }
 
     public void addQuestion(Document document, String content) throws DocumentException
     {
     	Paragraph paragraph = new Paragraph();
-    	paragraph.add(new Paragraph(content, subFont));
         addEmptyLine(paragraph, 2);
+    	paragraph.add(new Paragraph(content, subFont));
+        addEmptyLine(paragraph, 1);
         document.add(paragraph);
     }
     
@@ -66,16 +69,18 @@ public class PDFFormatter {
     	paragraph.add(new Paragraph("Your answer: ", smallBold));
         addEmptyLine(paragraph, 1);
     	paragraph.add(new Paragraph(content, subFont));
-        addEmptyLine(paragraph, 2);
+        addEmptyLine(paragraph, 1);
+        paragraph.add(new LineSeparator());
         document.add(paragraph);
     }
     
     public void addGrade(Document document, int grade) throws DocumentException
     {
     	Paragraph paragraph = new Paragraph();
+        addEmptyLine(paragraph, 3);
     	paragraph.add(new Paragraph("Your final grade is: ", catFont));
         addEmptyLine(paragraph, 1);
-    	paragraph.add(new Paragraph(Integer.toString(grade), subFont));
+    	paragraph.add(new Paragraph(Integer.toString(grade), smallBold));
         addEmptyLine(paragraph, 2);
         document.add(paragraph);
     }

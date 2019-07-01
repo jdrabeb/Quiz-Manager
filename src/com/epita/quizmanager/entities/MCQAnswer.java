@@ -4,47 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MCQAnswer {
+public class MCQAnswer extends Answer {
 	
-	List<MCQChoice> answers = new ArrayList<MCQChoice>();
+	MCQChoice mcqAnswer;
 	
-	public List<MCQChoice> getAnswers()
+//	List<MCQChoice> answers = new ArrayList<MCQChoice>();
+//	
+//	public List<MCQChoice> getAnswers()
+//	{
+//		return answers;
+//	}
+	
+	public void setAnswer(Question question)
 	{
-		return answers;
-	}
-	
-	public void setAnswers(List<MCQQuestion> questions)
-	{
-		//TODO : Several answers
-		for (MCQQuestion question : questions)
+		Scanner input = new Scanner(System.in);
+		MCQQuestion mcqQuestion = (MCQQuestion) question;
+		int nbChoices = mcqQuestion.numberOfChoices();
+		int choice;
+		do
 		{
-			Scanner input = new Scanner(System.in);
-			System.out.print(question.toString());
-			int nbChoices = question.numberOfChoices();
-			int answer;
-			do
-			{
-				System.out.print("\nEnter your answer:\n");
-				answer = input.nextInt();
-				input.nextLine();
-			} while (answer < 1 || answer > nbChoices);
-			answers.add(question.getChoices().get(answer - 1));
-		}
+			System.out.print("\nEnter your answer:\n");
+			choice = input.nextInt();
+			input.nextLine();
+		} while (choice < 1 || choice > nbChoices);
+		mcqAnswer = mcqQuestion.getChoices().get(choice - 1);
 	}
 	
-	public int calculateGrade(List<MCQQuestion> questions)
+	public MCQChoice getAnswer()
 	{
-		int grade = 0;
-		int index = 0;
-		for (MCQQuestion question : questions)
-		{
-			MCQChoice answer = answers.get(index);
-			int position = question.getChoices().indexOf(answer);
-			if (question.getChoices().get(position + 1).isValid() == answer.isValid())
-			{
-				grade++;
-			}
-		}
-		return grade;
+		return mcqAnswer;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return mcqAnswer.getContent();
+	}
+
 }

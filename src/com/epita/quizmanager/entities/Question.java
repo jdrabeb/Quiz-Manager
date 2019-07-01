@@ -10,12 +10,14 @@ public abstract class Question
 	private String content;
 	private int difficulty;
 	private Topic topic;
+	private QuestionType type;
 	
-	public Question (String content, int difficulty, Topic topic)
+	public Question (String content, int difficulty, Topic topic, QuestionType type)
 	{
 		this.content= content;
 		this.difficulty = difficulty;
 		this.topic = topic;
+		this.type = type;
 	}
 	
 	@Override
@@ -35,6 +37,11 @@ public abstract class Question
 	{
 		return topic;
 	}
+
+	public QuestionType getType()
+	{
+		return type;
+	}
 	
 	public void setContent(String content)
 	{
@@ -49,5 +56,10 @@ public abstract class Question
 	public void setTopic(Topic topic)
 	{
 		this.topic = topic;
+	}
+
+	public void setType(QuestionType type)
+	{
+		this.type = type;
 	}
 }
