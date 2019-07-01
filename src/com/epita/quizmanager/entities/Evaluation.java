@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.epita.quizmanager.services.PDFFormatter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
@@ -14,6 +15,9 @@ public class Evaluation {
 	private User user;
 	private Quiz quiz;
 	private List<MCQQuestion> mcqQuestions = new ArrayList<MCQQuestion>();
+	private MCQAnswer answers = new MCQAnswer();
+	
+	private int grade;
 
 	public Evaluation (User user, Quiz quiz)
 	{
@@ -24,7 +28,6 @@ public class Evaluation {
 	
 	public void startEvaluation(List<Topic> topics)
 	{
-		MCQAnswer answers = new MCQAnswer();
 		answers.setAnswers(quiz.getMcqQuestions());
 		int grade = calculateGrade(quiz.getMcqQuestions(), answers.getAnswers());
 		System.out.println("grade is: " + grade);
@@ -32,7 +35,6 @@ public class Evaluation {
 	
 	public int calculateGrade(List<MCQQuestion> questions, List<MCQChoice> answers)
 	{
-		int grade = 0;
 		int index = 0;
 		for (MCQQuestion question : questions)
 		{
@@ -47,24 +49,25 @@ public class Evaluation {
 		return grade;
 	}
 	
-	public void exportToPdf()
+	public void exportToPdf() throws DocumentException
 	{
-		Document document = new Document();
-	    try
-	    {
-	    	PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("HelloWorld.pdf"));
-	    	document.open();
-	        document.add(new Paragraph("A Hello World PDF document."));
-	        document.close();
-	        writer.close();
-	    }
-	    catch (DocumentException e)
-	    {
-	    	e.printStackTrace();
-	    }
-	    catch (FileNotFoundException e)
-	    {
-	    	e.printStackTrace();
-	    }
+		PDFFormatter pdfFormat = new PDFFormatter();
+		Document document = pdfFormat.CreatePdf("test.pdf");
+		pdfFormat.addTitlePage(document, "Quiz Evaluation", user.getName());
+		int index = 0;
+		for (MCQQuestion question : mcqQuestions)
+		{
+			pdfFormat.addQuestion(document, question.toString());
+			pdfFormat.addAnswer(document, answers.getAnswers().get(index).getContent());
+			index++;
+		}
+		pdfFormat.addGrade(document, grade);
+		pdfFormat.closeDocument(document);
 	}
+	
+	
+	
+	
+	
+	
 }

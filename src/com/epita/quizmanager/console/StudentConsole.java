@@ -12,6 +12,7 @@ import com.epita.quizmanager.entities.Topic;
 import com.epita.quizmanager.entities.User;
 import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
+import com.itextpdf.text.DocumentException;
 
 public class StudentConsole {
 	private User student;
@@ -39,6 +40,10 @@ public class StudentConsole {
 		Quiz quiz = new Quiz(topics);
 		Evaluation eval = new Evaluation(student, quiz);
 		eval.startEvaluation(topics);
-		//eval.exportToPdf();
+		try {
+			eval.exportToPdf();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
 		}
 }
