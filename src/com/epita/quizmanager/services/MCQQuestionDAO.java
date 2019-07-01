@@ -24,7 +24,8 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 	private final String SELECT_QUESTION_BY_TOPIC = "SELECT * FROM MCQQUESTIONS Q INNER JOIN TOPICS T ON Q.TOPIC_ID= T.TOPIC_ID WHERE T.TOPIC = ?";
 	private final String SELECT_CHOICES_BY_QUESTION = "SELECT CHOICE, ISVALID FROM MCQCHOICES C INNER JOIN MCQQUESTIONS Q ON C.QUESTION_ID= Q.QUESTION_ID WHERE Q.QUESTION= ?";
 	
-	private final String UPDATE_MCQQUESTION = "SELECT CHOICE, ISVALID FROM MCQCHOICES C INNER JOIN MCQQUESTIONS Q ON C.QUESTION_ID= Q.QUESTION_ID WHERE Q.QUESTION= ?";
+	private final String UPDATE_MCQQUESTION = "UPDATE MCQQUESTIONS SET QUESTION = ? WHERE QUESTION = ?";
+	private final String UPDATE_DIFFICULTY = "UPDATE MCQQUESTIONS SET DIFFICULTY = ? WHERE QUESTION = ?";	
 	
 	private final String DELETE_MCQCHOICE = "DELETE FROM MCQCHOICES WHERE QUESTION_ID= ?";
 	private final String DELETE_MCQUESTION = "DELETE FROM MCQQUESTIONS WHERE QUESTION= ?";
@@ -83,11 +84,44 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		}
 	}
 
-	public void update(MCQQuestion mcqQuestion)
+	public void update(MCQQuestion mcqQuestionToUpdate, MCQQuestion newQuestionToUpdate)
 	{
-		
+		if (newQuestionToUpdate.getContent() != null)
+			updateQuestion(mcqQuestionToUpdate, newQuestionToUpdate.getContent());
+		if (newQuestionToUpdate.getDifficulty() != -1)
+			updateDifficulty(mcqQuestionToUpdate, newQuestionToUpdate.getDifficulty());
 	}
 
+	public void updateQuestion(MCQQuestion mcqQuestion, String newQuestion)
+	{
+		try
+		{
+			PreparedStatement updateQuestionStatement = connection.prepareStatement(UPDATE_MCQQUESTION);
+			updateQuestionStatement.setString(1, newQuestion);
+			updateQuestionStatement.setString(2, mcqQuestion.getContent());
+			updateQuestionStatement.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateDifficulty(MCQQuestion mcqQuestion, int newDifficulty)
+	{
+		try
+		{
+			PreparedStatement updateQuestionStatement = connection.prepareStatement(UPDATE_DIFFICULTY);
+			updateQuestionStatement.setInt(1, newDifficulty);
+			updateQuestionStatement.setString(2, mcqQuestion.getContent());
+			updateQuestionStatement.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	public void delete(String question)
 	{
 		try

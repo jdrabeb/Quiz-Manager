@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.epita.quizmanager.console.AdminConsole;
+import com.epita.quizmanager.console.Console;
 import com.epita.quizmanager.entities.MCQChoice;
 import com.epita.quizmanager.entities.MCQQuestion;
 import com.epita.quizmanager.entities.Question;
@@ -38,8 +39,14 @@ public class QuizTests {
 		console.start();
 	}
 	
+	public static void testConsoleMenu()
+	{
+		Console console = new Console();
+		console.start();
+	}
+	
 	public static void main(String[] args)
 	{
-		testAdminConsoleMenu();
-		}
+		testConsoleMenu();
+	}
 }

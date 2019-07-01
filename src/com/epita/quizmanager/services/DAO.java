@@ -12,7 +12,7 @@ public abstract class DAO<T> {
    
   public abstract void create(T obj);
 
-  public abstract void update(T obj);
+  public abstract void update(T obj, T newObj);
 
   public abstract void delete(String value);
 

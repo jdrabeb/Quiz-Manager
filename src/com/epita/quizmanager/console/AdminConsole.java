@@ -130,6 +130,15 @@ public class AdminConsole {
 		}
 	}
 
+	public void updateMcqQuestionMenu()
+	{
+//		Scanner input = new Scanner(System.in);
+//		System.out.print("Enter the question to update.\n");
+//		String question = input.nextLine();
+//	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
+//		mcqDao.delete(question);
+	}
+	
 	public void deleteMcqQuestionMenu()
 	{
 		Scanner input = new Scanner(System.in);

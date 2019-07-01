@@ -50,4 +50,11 @@ public class User
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "Username: " + this.getName() + "\nPassword: " + this.getPassword() +
+				"\nIdentifiant: " + this.getId() + '\n';
+	}
 }
