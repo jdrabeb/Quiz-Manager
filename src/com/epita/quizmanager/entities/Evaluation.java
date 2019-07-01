@@ -8,6 +8,12 @@ import com.epita.quizmanager.services.PDFFormatter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 
+/**
+ * Evaluation - Sets a quiz for a user, calculate their grade
+ * and exports the quiz and the user answers in a pdf.
+ * @author rabeb
+ *
+ */
 public class Evaluation {
 	private User user;
 	private Quiz quiz;
@@ -16,6 +22,11 @@ public class Evaluation {
 	
 	private int grade;
 
+	/**
+	 * Constructor of class Evaluation
+	 * @param user
+	 * @param quiz
+	 */
 	public Evaluation (User user, Quiz quiz)
 	{
 		this.user = user;
@@ -23,7 +34,12 @@ public class Evaluation {
 		questions = quiz.getQuestions();
 	}
 	
-	public void startEvaluation(List<Topic> topics)
+	/**
+	 * Starts the evaluation.
+	 * Goes through quiz questions and saves user answers.
+	 * Calculates grade in the way and displays it at the end.
+	 */
+	public void startEvaluation()
 	{
 //		//TODO : Several answers
 		for (Question question : questions)
@@ -56,8 +72,13 @@ public class Evaluation {
 	}
 
 	
+	/**
+	 * Exports taken quiz with the user answers and their grade to PDF.
+	 * @throws DocumentException
+	 */
 	public void exportToPdf() throws DocumentException
 	{
+		//TODO : add pdf title to param and make it a conigurable variable
 		PDFFormatter pdfFormat = new PDFFormatter();
 		Document document = pdfFormat.CreatePdf("test.pdf");
 		pdfFormat.addTitlePage(document, "Quiz Evaluation", user.getName());

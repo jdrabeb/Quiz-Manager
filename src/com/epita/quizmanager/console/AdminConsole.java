@@ -13,8 +13,17 @@ import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
 import com.epita.quizmanager.services.OpenQuestionDAO;
 
+/**
+ * AdminConsole - The console displayed when the user logged in is an Admin.
+ * @author rabeb
+ *
+ */
 public class AdminConsole {
 		
+	/**
+	 *  Starts the main menu of an admin.
+	 *  In this menu the admin can manipulate mcq questions of open questions.
+	 */
 	public void start()
 	{
 		Scanner input = new Scanner(System.in);
@@ -49,6 +58,9 @@ public class AdminConsole {
 	    input.close();
 	}
 	
+	/**
+	 * Menu displays when choosing to manipulate MCQ questions.
+	 */
 	public void mcqMenu()
 	{
 		Scanner input = new Scanner(System.in);
@@ -87,7 +99,11 @@ public class AdminConsole {
     		}
     	}
 	}
-
+	
+	
+	/**
+	 * Menu to create an MCQ Question.
+	 */
 	public void createMcqQuestionMenu()
 	{
 		//TODO : Add exceptions to manage type mismatch.
@@ -118,6 +134,9 @@ public class AdminConsole {
 		mcqDao.create(mcqQuestion);
 	}
 	
+	/**
+	 * Menu to search an MCQ Question.
+	 */
 	public void searchMcqQuestionMenu()
 	{
 		Scanner input = new Scanner(System.in);
@@ -133,6 +152,9 @@ public class AdminConsole {
 		}
 	}
 
+	/**
+	 * Menu to update an MCQ Question.
+	 */
 	public void updateMcqQuestionMenu()
 	{
 		Scanner input = new Scanner(System.in);
@@ -178,6 +200,9 @@ public class AdminConsole {
 	    }
 	}
 	
+	/**
+	 * Menu to delete an MCQ Question.
+	 */
 	public void deleteMcqQuestionMenu()
 	{
 	    MCQQuestionDAO mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
@@ -239,6 +264,9 @@ public class AdminConsole {
     	}
 	}
 	
+	/**
+	 * Menu to create an Open Question.
+	 */
 	public void createOpenQuestionMenu()
 	{
 		//TODO : Add exceptions to manage type mismatch.
@@ -257,6 +285,9 @@ public class AdminConsole {
 		openDao.create(openQuestion);
 	}
 	
+	/**
+	 * Menu to search an Open Question.
+	 */
 	public void searchOpenQuestionMenu()
 	{
 		Scanner input = new Scanner(System.in);
@@ -272,6 +303,9 @@ public class AdminConsole {
 		}
 	}
 
+	/**
+	 * Menu to update an Open Question.
+	 */
 	public void updateOpenQuestionMenu()
 	{
 		Scanner input = new Scanner(System.in);
@@ -317,6 +351,9 @@ public class AdminConsole {
 	    }
 	}
 	
+	/**
+	 * Menu to delete an Open Question.
+	 */
 	public void deleteOpenQuestionMenu()
 	{
 	    OpenQuestionDAO openDao = new OpenQuestionDAO(DBConnection.getInstance());

@@ -12,8 +12,18 @@ import com.epita.quizmanager.entities.MCQQuestion;
 import com.epita.quizmanager.entities.Topic;
 
 
+/**
+ * MCQQuestionDAO - DAO to manipulate MCQQuestions.
+ * @author rabeb
+ *
+ */
+/**
+ * @author rabeb
+ *
+ */
 public class MCQQuestionDAO extends DAO<MCQQuestion>
 {
+	// List of queries needed to create an MCQQuestion.
 	private final String SELECT_TOPIC = "SELECT TOPIC FROM TOPICS WHERE TOPIC = ? ";
 	private final String SELECT_TOPIC_ID = "SELECT TOPIC_ID FROM TOPICS WHERE TOPIC = ? ";
 	private final String INSERT_TOPIC = "INSERT INTO TOPICS VALUES(NULL, ?)";
@@ -21,24 +31,36 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 	private final String SELECT_QUESTIONID = "SELECT QUESTION_ID FROM MCQQUESTIONS WHERE QUESTION = ? ";
 	private final String INSERT_MCQCHOICES = "INSERT INTO MCQCHOICES VALUES(NULL, ?, ?, ?)";
 
+	// List of queries needed to find an MCQQuestion.
 	private final String SELECT_QUESTION_BY_TOPIC = "SELECT * FROM MCQQUESTIONS Q INNER JOIN TOPICS T ON Q.TOPIC_ID= T.TOPIC_ID WHERE T.TOPIC = ?";
 	private final String SELECT_CHOICES_BY_QUESTION = "SELECT CHOICE, ISVALID FROM MCQCHOICES C INNER JOIN MCQQUESTIONS Q ON C.QUESTION_ID= Q.QUESTION_ID WHERE Q.QUESTION= ?";
 	
+	// List of queries needed to display an MCQQuestion.
 	private final String SELECT_MCQQUESTIONS = "SELECT QUESTION_ID, QUESTION FROM MCQQUESTIONS";
+	// List of queries needed to display a Topic.
 	private final String SELECT_ALLTOPICS = "SELECT TOPIC FROM TOPICS";
 
-	
+	// List of queries needed to update an MCQQuestion.
 	private final String UPDATE_MCQQUESTION = "UPDATE MCQQUESTIONS SET QUESTION = ? WHERE QUESTION_ID = ?";
 	private final String UPDATE_DIFFICULTY = "UPDATE MCQQUESTIONS SET DIFFICULTY = ? WHERE QUESTION_ID = ?";	
 	
+	// List of queries needed to delete an MCQQuestion.
 	private final String DELETE_MCQCHOICE = "DELETE FROM MCQCHOICES WHERE QUESTION_ID= ?";
 	private final String DELETE_MCQUESTION = "DELETE FROM MCQQUESTIONS WHERE QUESTION_ID= ?";
 	
+	/**
+	 * Constructor of an MCQQuestionDao
+	 * @param connection - The connection to the database.
+	 */
 	public MCQQuestionDAO(Connection connection)
 	{
 		super(connection);
 	}
 
+	/**
+	 *Create a new MCQ question in the database.
+	 *@param mcqQuestion - The question to add to the database.
+	 */
 	public void create(MCQQuestion mcqQuestion)
 	{
 		try
@@ -88,11 +110,21 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		}
 	}
 
+	/**
+	 * Update an MCQ question in the database.
+	 * @param mcqQuestion_id - The question id of the question to update.
+	 * @param newQuestionToUpdate - The new MCQ question to update to.
+	 */
 	public void update(int mcqQuestion_id, MCQQuestion newQuestionToUpdate)
 	{
 		//TODO
 	}
 
+	/**
+	 * Update the content of an MCQ question in the database.
+	 * @param mcqQuestion_id - The question id of the question to update.
+	 * @param newQuestion - The new MCQ question content to update to.
+	 */
 	public void updateQuestion(int mcqQuestion_id, String newQuestion)
 	{
 		try
@@ -108,6 +140,11 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		}
 	}
 	
+	
+	/** Update the difficulty of an MCQ question in the database.
+	 * @param mcqQuestion_id - The question id of the question to update.
+	 * @param newDifficulty - The new difficulty to update to.
+	 */
 	public void updateDifficulty(int mcqQuestion_id, int newDifficulty)
 	{
 		try
@@ -123,6 +160,10 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		}
 	}
 	
+	/**
+	 * Display all the MCQ questions in the database.
+	 * @return 0 on success, 1 if there is nothing to display.
+	 */
 	public int displayQuestions()
 	{
 		try
@@ -152,6 +193,10 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		return 1;
 	}
 	
+	/**
+	 * Display all the topics in the database.
+	 * @return 0 on success, 1 if there is nothing to display.
+	 */
 	public int displayTopics()
 	{
 		try
@@ -181,6 +226,10 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		return 1;
 	}
 	
+	/**
+	 * Delete an MCQ question from the database.
+	 * @param question_id - The question_id of the question to delete
+	 */
 	public void delete(int question_id)
 	{
 		try
@@ -200,6 +249,12 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 		}
 	}
 
+
+	/**
+	 * Find all MCQ questions covering a certain topic.
+	 * @param searchtopic - the topic to search questions based on.
+	 * @return all the MCQ questions covering searchtopic.
+	 */
 	public List<MCQQuestion> find(String searchtopic)
 	{
 		String question;

@@ -4,6 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * DBConnection - A singleton  that connects to the database.
+ * @author rabeb
+ *
+ */
 public class DBConnection {
 	static Configuration config = Configuration.getInstance();
 	private static String databaseURL = config.getPropertyValue("jdbc.url");
@@ -11,6 +16,9 @@ public class DBConnection {
 	private static String databasePassword = config.getPropertyValue("jdbc.password");
 	private static Connection connection;
 
+	/**
+	 * Private constructor connects to the database using connection strings from config.properties file.
+	 */
 	private DBConnection()
 	{
 		try
@@ -22,6 +30,10 @@ public class DBConnection {
 	    }
 	}
 	
+	/**
+	 * Get instance of the database connection.
+	 * @return instance of the connection.
+	 */
 	public static Connection getInstance()
 	{
 	    if(connection == null)

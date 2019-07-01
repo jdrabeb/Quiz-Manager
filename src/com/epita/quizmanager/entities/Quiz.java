@@ -8,12 +8,22 @@ import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
 import com.epita.quizmanager.services.OpenQuestionDAO;
 
+/**
+ * Quiz - Generates a quiz with MCQ and Open questions based on a set of topics.
+ * @author rabeb
+ *
+ */
 public class Quiz {
 	
 	private List<Topic> topics = new ArrayList<Topic>();
 	//TODO : make one list List<Question>
 	private List<Question> questions = new ArrayList<Question>();
 
+	/**
+	 * Constructor of Quiz.
+	 * Generates all the questions based on a list of topics.
+	 * @param topics The topics that should be covered in all the quiz questions.
+	 */
 	public Quiz(List<Topic> topics)
 	{
 		this.topics = topics;
@@ -31,11 +41,18 @@ public class Quiz {
 		}
 	}
 	
+	/**
+	 * Getter of all the questions of the quiz.
+	 * @return a list of all the questions of the quiz.
+	 */
 	public List<Question> getQuestions()
 	{
 		return questions;
 	}
 	
+	/**
+	 *Overrides toString to display the questions of the quiz.
+	 */
 	@Override
 	public String toString()
 	{

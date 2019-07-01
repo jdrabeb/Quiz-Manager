@@ -10,30 +10,48 @@ import java.util.List;
 import com.epita.quizmanager.entities.OpenQuestion;
 import com.epita.quizmanager.entities.Topic;
 
+/**
+ * OpenQuestionDAO - DAO to manipulate OpenQuestions.
+ * @author rabeb
+ *
+ */
 public class OpenQuestionDAO extends DAO<OpenQuestion>{
 
+	// List of queries needed to create an OpenQuestion.
 	private final String SELECT_TOPIC = "SELECT TOPIC FROM TOPICS WHERE TOPIC = ? ";
 	private final String SELECT_TOPIC_ID = "SELECT TOPIC_ID FROM TOPICS WHERE TOPIC = ? ";
 	private final String INSERT_TOPIC = "INSERT INTO TOPICS VALUES(NULL, ?)";
 	private final String INSERT_OPENQUESTION = "INSERT INTO OPENQUESTIONS VALUES(NULL, ?, ?, ?)";
 	private final String SELECT_QUESTIONID = "SELECT OPENQUESTION_ID FROM OPENQUESTIONS WHERE QUESTION = ? ";
 
+	// List of queries needed to find an Question by topic.
 	private final String SELECT_QUESTION_BY_TOPIC = "SELECT * FROM OPENQUESTIONS Q INNER JOIN TOPICS T ON Q.TOPIC_ID= T.TOPIC_ID WHERE T.TOPIC = ?";
 	
+	// List of queries needed to display all OpenQuestion.
 	private final String SELECT_OPENQUESTIONS = "SELECT OPENQUESTION_ID, QUESTION FROM OPENQUESTIONS";
+	// List of queries needed to display all topics.
 	private final String SELECT_ALLTOPICS = "SELECT TOPIC FROM TOPICS";
 
-	
+	// List of queries needed to update an OpenQuestion.
 	private final String UPDATE_OPENQUESTION = "UPDATE OPENQUESTIONS SET QUESTION = ? WHERE OPENQUESTION_ID = ?";
 	private final String UPDATE_DIFFICULTY = "UPDATE OPENQUESTIONS SET DIFFICULTY = ? WHERE OPENQUESTION_ID = ?";	
 	
+	// List of queries needed to delete an OpenQuestion.
 	private final String DELETE_OPENQUESTION = "DELETE FROM OPENQUESTIONS WHERE OPENQUESTION_ID= ?";
 	
+	/**
+	 * Constructor of an OpenQuestionDao
+	 * @param connection - The connection to the database
+	 */
 	public OpenQuestionDAO(Connection connection)
 	{
 		super(connection);
 	}
 
+	/**
+	 *Create a new Open question in the database.
+	 *@param openQuestion - The question to add to the database.
+	 */
 	public void create(OpenQuestion openQuestion)
 	{
 		try
@@ -66,12 +84,22 @@ public class OpenQuestionDAO extends DAO<OpenQuestion>{
 			e.printStackTrace();
 		}
 	}
-
-	public void update(int mcqQuestion_id, OpenQuestion newQuestionToUpdate)
+	
+	/**
+	 * Update an Open question in the database.
+	 * @param openQuestion_id - The question id of the question to update.
+	 * @param newQuestionToUpdate - The new Open question to update to.
+	 */
+	public void update(int openQuestion_id, OpenQuestion newQuestionToUpdate)
 	{
 		//TODO
 	}
 
+	/**
+	 * Update the content of an Open question in the database.
+	 * @param openQuestion_id - The question id of the question to update.
+	 * @param newQuestion - The new Open question content to update to.
+	 */
 	public void updateQuestion(int openQuestion_id, String newQuestion)
 	{
 		try
@@ -87,6 +115,10 @@ public class OpenQuestionDAO extends DAO<OpenQuestion>{
 		}
 	}
 	
+	/** Update the difficulty of an OPen question in the database.
+	 * @param openQuestion_id - The question id of the question to update.
+	 * @param newDifficulty - The new difficulty to update to.
+	 */
 	public void updateDifficulty(int openQuestion_id, int newDifficulty)
 	{
 		try
@@ -102,6 +134,10 @@ public class OpenQuestionDAO extends DAO<OpenQuestion>{
 		}
 	}
 	
+	/**
+	 * Display all the Open questions in the database.
+	 * @return 0 on success, 1 if there is nothing to display.
+	 */
 	public int displayQuestions()
 	{
 		try
@@ -131,6 +167,10 @@ public class OpenQuestionDAO extends DAO<OpenQuestion>{
 		return 1;
 	}
 	
+	/**
+	 * Display all the topics in the database.
+	 * @return 0 on success, 1 if there is nothing to display.
+	 */
 	public int displayTopics()
 	{
 		try
@@ -160,7 +200,10 @@ public class OpenQuestionDAO extends DAO<OpenQuestion>{
 		return 1;
 	}
 	
-	
+	/**
+	 * Delete an Open question from the database.
+	 * @param question_id - The question_id of the question to delete
+	 */
 	public void delete(int question_id)
 	{
 		try
@@ -177,6 +220,11 @@ public class OpenQuestionDAO extends DAO<OpenQuestion>{
 		}
 	}
 
+	/**
+	 * Find all Open questions covering a certain topic.
+	 * @param searchtopic - the topic to search questions based on.
+	 * @return all the Open questions covering searchtopic.
+	 */
 	public List<OpenQuestion> find(String searchtopic)
 	{
 		String question;

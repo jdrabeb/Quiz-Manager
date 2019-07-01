@@ -14,14 +14,27 @@ import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
 import com.itextpdf.text.DocumentException;
 
+/**
+ * StudentConsole - The console displayed when the user logged in is a student.
+ * @author rabeb
+ *
+ */
 public class StudentConsole {
 	private User student;
 	
+	/**
+	 * StudentConsole constructor. Stocks the information of the student logged.
+	 * @param student - The student logged.
+	 */
 	public StudentConsole(User student)
 	{
 		this.student = student;
 	}
 	
+	/**
+	 * Launches the menu to choose a list of topics and start an evaluation based
+	 * on theses topics.
+	 */
 	public void start()
 	{
 		List<Topic> topics = new ArrayList<Topic>();
@@ -39,7 +52,7 @@ public class StudentConsole {
 		}
 		Quiz quiz = new Quiz(topics);
 		Evaluation eval = new Evaluation(student, quiz);
-		eval.startEvaluation(topics);
+		eval.startEvaluation();
 		try {
 			eval.exportToPdf();
 		} catch (DocumentException e) {

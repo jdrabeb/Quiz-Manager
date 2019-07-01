@@ -7,12 +7,22 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
+/**
+ * Singleton of configuration get the properties of the database
+ * from a config.properties file.
+ * @author rabeb
+ *
+ */
 public class Configuration
 {
 		private Properties properties;
 		
 		private static Configuration configuration;
 		
+		/**
+		 * Private constructor of configuration.
+		 * loads the config.properties file.
+		 */
 		private Configuration ()
 		{
 			properties = new Properties ();
@@ -31,6 +41,10 @@ public class Configuration
 			}
 		}
 		
+		/**
+		 * Getter of the instance of the configuration.
+		 * @return the instance of the configuration.
+		 */
 		public static Configuration getInstance ()
 		{
 			if (configuration == null)
@@ -40,27 +54,13 @@ public class Configuration
 			return configuration;
 		}
 		
+		/**
+		 * Reads and returns the properties for the config.properties file.
+		 * @param key - The key to grab the value of property of.
+		 * @return the property at key.
+		 */
 		public String getPropertyValue (String key)
 		{
 			return properties.getProperty (key);
 		}
-//		
-//		public void setUserProperty (User user)
-//		{
-//			try {
-//				FileOutputStream output = new FileOutputStream("config.properties", true);
-//				properties.setProperty("user.username", user.getName());
-//				properties.setProperty("user.password", user.getPassword());
-//				properties.setProperty("user.id", user.getId());
-//				properties.setProperty("user.isAdmin", Boolean.toString(user.isAdmin()));	    	
-//
-//				try {
-//					properties.store(output, "");
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			}
-//		}
 }

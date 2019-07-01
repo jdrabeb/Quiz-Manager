@@ -10,6 +10,11 @@ import java.util.List;
 import com.epita.quizmanager.entities.MCQQuestion;
 import com.epita.quizmanager.entities.User;
 
+/**
+ * UserDAO - DAO to manipulate Users.
+ * @author rabeb
+ *
+ */
 public class UserDAO extends DAO<User> {
 	
 	private final String INSERT_USER = "INSERT INTO USERS VALUES(NULL, ?, ?, ?, ?)";
@@ -17,11 +22,19 @@ public class UserDAO extends DAO<User> {
 	private final String SELECT_BY_USERNAME_PASSWORD = "SELECT NAME, PASSWORD, IDENTIFIANT, ISADMIN FROM USERS WHERE NAME = ? AND PASSWORD = ? ";
 
 	
+	/**
+	 * Constructor of a UserDAO.
+	 * @param connection - The connection to the database.
+	 */
 	public UserDAO(Connection connection)
 	{
 		super(connection);
 	}
 
+	/**
+	 *Create a new user in the database.
+	 *@param user - The user to add to the database.
+	 */
 	public void create(User user)
 	{
 		try {
@@ -37,16 +50,30 @@ public class UserDAO extends DAO<User> {
 		}
 	}
 
+	/**
+	 * Update a user from the database.
+	 * @param user_id - The user_id of the user to update.
+	 * @param newUser - The new user to update to.
+	 */
 	public void update(int user_id, User newUser)
 	{
 		
 	}
 
+	/**
+	 * Delete a user from the database.
+	 * @param user_id - The user_id of the user to delete.
+	 */
 	public void delete(int user_id)
 	{
 		  
 	}
 
+	/**
+	 * Find all users having a given id.
+	 * @param id - the user id to search users based on.
+	 * @return all the users having the given id.
+	 */
 	public List<User> find(String id)
 	{
 		try
@@ -69,6 +96,12 @@ public class UserDAO extends DAO<User> {
 		return null;
 	}
 
+	/**
+	 * Find and return a user matching a given username and password.
+	 * @param username - The username to search in the database.
+	 * @param password - The password to search in the database.
+	 * @return a user matching the info searched.
+	 */
 	public User findLogin(String username, String password)
 	{
 		try
