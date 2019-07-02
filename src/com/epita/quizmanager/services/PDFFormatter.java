@@ -18,36 +18,41 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
  */
 public class PDFFormatter {
 	
+    Document document;
+	
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18,
             Font.BOLD);
     private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
             Font.NORMAL);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 14,
             Font.BOLD);
+    
+    /**
+     * Constructor of PDFFormatter
+     */
+    public PDFFormatter() {
+    	document = new Document();
+    }
 
     /**
      * Create a pdf file.
      * @param fileName - The filename of the pdf.
-     * @return
      */
-    public Document CreatePdf(String fileName)
+    public void createPdf(String fileName)
     {
         try {
-            Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(fileName));
             document.open();
-            return document;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
 	}
     
     /**
      * Closes the pdf document.
      * @param document
      */
-    public void closeDocument(Document document)
+    public void closeDocument()
     {
         try {
             document.close();
@@ -63,7 +68,7 @@ public class PDFFormatter {
      * @param studentName - The student taking the quiz.
      * @throws DocumentException
      */
-    public void addTitlePage(Document document, String title, String studentName)
+    public void addTitlePage(String title, String studentName)
             throws DocumentException {
         Paragraph preface = new Paragraph();
         addEmptyLine(preface, 1);
@@ -81,7 +86,7 @@ public class PDFFormatter {
      * @param content - A formatted question.
      * @throws DocumentException
      */
-    public void addQuestion(Document document, String content) throws DocumentException
+    public void addQuestion(String content) throws DocumentException
     {
     	Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, 2);
@@ -96,7 +101,7 @@ public class PDFFormatter {
      * @param content - Formatted answer.
      * @throws DocumentException
      */
-    public void addAnswer(Document document, String content) throws DocumentException
+    public void addAnswer(String content) throws DocumentException
     {
     	Paragraph paragraph = new Paragraph();
     	paragraph.add(new Paragraph("Your answer: ", smallBold));
@@ -113,7 +118,7 @@ public class PDFFormatter {
      * @param grade - The grade of the user at the quiz. 
      * @throws DocumentException
      */
-    public void addGrade(Document document, int grade) throws DocumentException
+    public void addGrade(int grade) throws DocumentException
     {
     	Paragraph paragraph = new Paragraph();
         addEmptyLine(paragraph, 3);

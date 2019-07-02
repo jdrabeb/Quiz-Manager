@@ -16,7 +16,6 @@ import com.epita.quizmanager.services.OpenQuestionDAO;
 public class Quiz {
 	
 	private List<Topic> topics = new ArrayList<Topic>();
-	//TODO : make one list List<Question>
 	private List<Question> questions = new ArrayList<Question>();
 
 	/**

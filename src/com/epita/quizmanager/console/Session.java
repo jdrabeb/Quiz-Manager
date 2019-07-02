@@ -1,5 +1,6 @@
-package com.epita.quizmanager.entities;
+package com.epita.quizmanager.console;
 
+import com.epita.quizmanager.entities.User;
 import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.UserDAO;
 

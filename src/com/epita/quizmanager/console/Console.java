@@ -2,7 +2,7 @@ package com.epita.quizmanager.console;
 
 import java.util.Scanner;
 
-import com.epita.quizmanager.entities.Session;
+import com.epita.quizmanager.console.Session;
 import com.epita.quizmanager.entities.User;
 
 /**

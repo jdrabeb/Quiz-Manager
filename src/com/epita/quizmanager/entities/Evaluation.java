@@ -78,18 +78,18 @@ public class Evaluation {
 	 */
 	public void exportToPdf() throws DocumentException
 	{
-		//TODO : add pdf title to param and make it a conigurable variable
+		//TODO : add pdf title to param and make it a configurable variable
 		PDFFormatter pdfFormat = new PDFFormatter();
-		Document document = pdfFormat.CreatePdf("test.pdf");
-		pdfFormat.addTitlePage(document, "Quiz Evaluation", user.getName());
+		pdfFormat.createPdf("test.pdf");
+		pdfFormat.addTitlePage("Quiz Evaluation", user.getName());
 		int index = 0;
 		for (Question question : questions)
 		{
-			pdfFormat.addQuestion(document, question.toString());
-			pdfFormat.addAnswer(document, answers.get(index).toString());
+			pdfFormat.addQuestion(question.toString());
+			pdfFormat.addAnswer(answers.get(index).toString());
 			index++;
 		}
-		pdfFormat.addGrade(document, grade);
-		pdfFormat.closeDocument(document);
+		pdfFormat.addGrade(grade);
+		pdfFormat.closeDocument();
 	}
 }
