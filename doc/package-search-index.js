@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"m":"javaQuizManager","l":"com.epita.quizmanager.console"},{"m":"javaQuizManager","l":"com.epita.quizmanager.entities"},{"m":"javaQuizManager","l":"com.epita.quizmanager.services"},{"m":"javaQuizManager","l":"com.epita.quizmanager.tests"}]

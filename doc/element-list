@@ -1,0 +1,5 @@
+module:javaQuizManager
+com.epita.quizmanager.console
+com.epita.quizmanager.entities
+com.epita.quizmanager.services
+com.epita.quizmanager.tests

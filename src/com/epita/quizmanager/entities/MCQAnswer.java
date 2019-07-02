@@ -15,7 +15,7 @@ public class MCQAnswer extends Answer {
 	
 	/**
 	 * Stores user's answer to an MCQ question.
-	 * @param question An MCQ question of the quiz.
+	 * @param answer An MCQ question of the quiz.
 	 *
 	 */
 	public void setAnswer(MCQChoice answer)

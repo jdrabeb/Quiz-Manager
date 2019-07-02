@@ -9,7 +9,7 @@ public class OpenQuestion extends Question{
 	
 	/**
 	 * Constructor of an open question.
-	 * @param content the content of the question
+	 * @param question the content of the question
 	 * @param difficulty the difficulty of the question 
 	 * @param topic The topic of the question
 	 */

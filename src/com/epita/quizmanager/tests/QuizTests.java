@@ -8,6 +8,7 @@ import com.epita.quizmanager.console.Console;
 import com.epita.quizmanager.console.StudentConsole;
 import com.epita.quizmanager.entities.MCQChoice;
 import com.epita.quizmanager.entities.MCQQuestion;
+import com.epita.quizmanager.entities.OpenQuestion;
 import com.epita.quizmanager.entities.Question;
 import com.epita.quizmanager.entities.QuestionType;
 import com.epita.quizmanager.entities.Topic;
@@ -15,6 +16,7 @@ import com.epita.quizmanager.entities.User;
 import com.epita.quizmanager.services.DAO;
 import com.epita.quizmanager.services.DBConnection;
 import com.epita.quizmanager.services.MCQQuestionDAO;
+import com.epita.quizmanager.services.OpenQuestionDAO;
 import com.epita.quizmanager.services.UserDAO;
 
 /**
@@ -29,17 +31,45 @@ public class QuizTests {
 	 */
 	public static void testCreateMCQQuestion()
 	{
-		MCQChoice choice1 = new MCQChoice("choice1", false);
-		MCQChoice choice2 = new MCQChoice("choice2", true);
-		MCQChoice choice3 = new MCQChoice("choice3", false);
+		MCQChoice choice1 = new MCQChoice("Encapsulation", false);
+		MCQChoice choice2 = new MCQChoice("Polymorphism", false);
+		MCQChoice choice3 = new MCQChoice("Abstraction", true);
+		MCQChoice choice4 = new MCQChoice("Inheritance", false);
 		List<MCQChoice> choices = new ArrayList<MCQChoice>();
 		choices.add(choice1);
 		choices.add(choice2);
 		choices.add(choice3);
-		Topic test = new Topic("topic");
-		MCQQuestion mcqQuestion= new MCQQuestion("This is a question?", 0, test, choices);
+		choices.add(choice4);
+		Topic topic = new Topic("java");
+		MCQQuestion mcqQuestion= new MCQQuestion(" A process that involves recognizing and "
+				+ "focusing on the important characteristics of a situation or object is known as:\n" + 
+				"\n" + 
+				"", 1, topic, choices);
 	    DAO<MCQQuestion> mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
 		mcqDao.create(mcqQuestion);
+	}
+	
+	/**
+	 * Test creating an OpenQuestion.
+	 */
+	public static void testCreateOpenQuestion()
+	{
+		Topic topic = new Topic("java");
+		OpenQuestion mcqQuestion= new OpenQuestion(" Define inheritence: \n",1 , topic);
+	    DAO<OpenQuestion> openDao = new OpenQuestionDAO(DBConnection.getInstance());
+		openDao.create(mcqQuestion);
+	}
+	
+	/**
+	 * Test creating an admin user and a student.
+	 */
+	public static void testCreateUser()
+	{
+		User admin = new User("admin", "admin", "no id", true);
+		User student = new User("toto", "tata", "12345", false);
+	    DAO<User> userDao = new UserDAO(DBConnection.getInstance());
+		userDao.create(admin);
+		userDao.create(student);
 	}
 	
 	/**
@@ -72,6 +102,9 @@ public class QuizTests {
 	
 	public static void main(String[] args)
 	{
+		testCreateMCQQuestion();
+		testCreateOpenQuestion();
+		testCreateUser();
 		testConsoleMenu();
 	}
 }

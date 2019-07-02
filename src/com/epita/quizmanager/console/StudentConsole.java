@@ -88,7 +88,7 @@ public class StudentConsole {
 		{
 			case "y":
 			case "Y":
-				System.out.print("Type the name you want to give to your pdf to export");
+				System.out.print("Type the name you want to give to your pdf to export \n");
 				String pdfTitle = input.nextLine();
 				try {
 					eval.exportToPdf(pdfTitle);
