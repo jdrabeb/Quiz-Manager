@@ -162,75 +162,73 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 	
 	/**
 	 * Display all the MCQ questions in the database.
-	 * @return 0 on success, 1 if there is nothing to display.
+	 * @return a string with all the MCQ questions available in the database. Returns null on error.
 	 */
-	public int displayQuestions()
+	public String displayQuestions()
 	{
 		try
 		{
+			String questionsToDisplay = "";
 			PreparedStatement selectQuestionsStatement = connection.prepareStatement(SELECT_MCQQUESTIONS);
 			ResultSet resultSet = selectQuestionsStatement.executeQuery();
 			if (!resultSet.next())
 			{
-				System.out.println("\nThere are no MCQQuestions.");
-				return 1;
+				return questionsToDisplay;
 			}
 			else
 			{
-				System.out.println("\nAll the available MCQQuestions.\n");
 				do
 				{
-					System.out.println("Question id: " + resultSet.getInt("question_id") + ", Question: " + resultSet.getString("question") + "\n");
+					questionsToDisplay = questionsToDisplay + "Question id: " + resultSet.getInt("question_id") + ", Question: " + resultSet.getString("question") + "\n";
 				}
 				while (resultSet.next());
-				return 0;
+				return questionsToDisplay;
 			}
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
+			return null;
 		}
-		return 1;
 	}
 	
 	/**
 	 * Display all the topics in the database.
-	 * @return 0 on success, 1 if there is nothing to display.
+	 * @return a string with all the topics available in the database. Returns null on error.
 	 */
-	public int displayTopics()
+	public String displayTopics()
 	{
 		try
 		{
+			String topicsToDisplay = "";
 			PreparedStatement selectTopicsStatement = connection.prepareStatement(SELECT_ALLTOPICS);
 			ResultSet resultSet = selectTopicsStatement.executeQuery();	
 			if (!resultSet.next())
 			{
-				System.out.println("\nThere are no Topics.");
-				return 1;
+				return topicsToDisplay;
 			}
 			else
 			{
-				System.out.println("\nAll the available Topics:\n");
 				do
 				{
-					System.out.println(resultSet.getString("topic"));
+					topicsToDisplay = topicsToDisplay + resultSet.getString("topic") + "\n";
 				}
 				while (resultSet.next());
-				return 0;
+				return topicsToDisplay;
 			}
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
+			return null;
 		}
-		return 1;
 	}
 	
 	/**
 	 * Delete an MCQ question from the database.
 	 * @param question_id - The question_id of the question to delete
 	 */
-	public void delete(int question_id)
+	public int delete(int question_id)
 	{
 		try
 		{
@@ -240,12 +238,12 @@ public class MCQQuestionDAO extends DAO<MCQQuestion>
 			PreparedStatement deleteQuestionStatement = connection.prepareStatement(DELETE_MCQUESTION);
 			deleteQuestionStatement.setInt(1, question_id);
 			deleteQuestionStatement.executeUpdate();
-			System.out.println("\nThe question was deleted succesfully.\n");
-
+			return 0;
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
+			return -1;
 		}
 	}
 

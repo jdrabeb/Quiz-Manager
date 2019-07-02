@@ -14,12 +14,9 @@ public class OpenAnswer extends Answer {
 	/**
 	 * Stores user's answer to an open question.
 	 */
-	public void setAnswer(Question question)
+	public void setAnswer(String answer)
 	{
-		Scanner input = new Scanner(System.in);
-		OpenQuestion openQuestion = (OpenQuestion) question;
-		System.out.print("\nEnter your answer:\n");
-		openAnswer = input.nextLine();
+		openAnswer = answer;
 	}
 	
 	/**

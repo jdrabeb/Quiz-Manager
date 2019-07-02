@@ -136,87 +136,53 @@ public class OpenQuestionDAO extends DAO<OpenQuestion>{
 	
 	/**
 	 * Display all the Open questions in the database.
-	 * @return 0 on success, 1 if there is nothing to display.
+	 * @return a string with all the topics available in the database. returns null on error.
 	 */
-	public int displayQuestions()
+	public String displayQuestions()
 	{
 		try
 		{
+			String questionsToDisplay = "";
 			PreparedStatement selectQuestionsStatement = connection.prepareStatement(SELECT_OPENQUESTIONS);
 			ResultSet resultSet = selectQuestionsStatement.executeQuery();
 			if (!resultSet.next())
 			{
-				System.out.println("\nThere are no Open Questions.");
-				return 1;
+				return questionsToDisplay;
 			}
 			else
 			{
-				System.out.println("\nAll the available Open Questions.\n");
 				do
 				{
-					System.out.println("Question id: " + resultSet.getInt("openquestion_id") + ", Question: " + resultSet.getString("question") + "\n");
+					questionsToDisplay = questionsToDisplay + "Question id: " + resultSet.getInt("openquestion_id") + ", Question: " + resultSet.getString("question") + "\n";
 				}
 				while (resultSet.next());
-				return 0;
+				return questionsToDisplay;
 			}
 		}
 		catch (SQLException e)
 		{
 			e.printStackTrace();
+			return null;
 		}
-		return 1;
-	}
-	
-	/**
-	 * Display all the topics in the database.
-	 * @return 0 on success, 1 if there is nothing to display.
-	 */
-	public int displayTopics()
-	{
-		try
-		{
-			PreparedStatement selectTopicsStatement = connection.prepareStatement(SELECT_ALLTOPICS);
-			ResultSet resultSet = selectTopicsStatement.executeQuery();	
-			if (!resultSet.next())
-			{
-				System.out.println("\nThere are no Topics.");
-				return 1;
-			}
-			else
-			{
-				System.out.println("\nAll the available Topics:\n");
-				do
-				{
-					System.out.println(resultSet.getString("topic"));
-				}
-				while (resultSet.next());
-				return 0;
-			}
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-		return 1;
 	}
 	
 	/**
 	 * Delete an Open question from the database.
 	 * @param question_id - The question_id of the question to delete
 	 */
-	public void delete(int question_id)
+	public int delete(int question_id)
 	{
 		try
 		{
 			PreparedStatement deleteQuestionStatement = connection.prepareStatement(DELETE_OPENQUESTION);
 			deleteQuestionStatement.setInt(1, question_id);
 			deleteQuestionStatement.executeUpdate();
-			System.out.println("The question was deleted succesfully.\n");
+			return 0;
 		}
 		catch (SQLException e)
 		{
-			System.out.println("\nThe question you want to delete doesn't exist\n");
 			e.printStackTrace();
+			return -1;
 		}
 	}
 

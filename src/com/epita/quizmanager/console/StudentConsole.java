@@ -7,6 +7,9 @@ import java.util.Scanner;
 import com.epita.quizmanager.entities.Evaluation;
 import com.epita.quizmanager.entities.MCQAnswer;
 import com.epita.quizmanager.entities.MCQQuestion;
+import com.epita.quizmanager.entities.OpenAnswer;
+import com.epita.quizmanager.entities.Question;
+import com.epita.quizmanager.entities.QuestionType;
 import com.epita.quizmanager.entities.Quiz;
 import com.epita.quizmanager.entities.Topic;
 import com.epita.quizmanager.entities.User;
@@ -39,7 +42,19 @@ public class StudentConsole {
 	{
 		List<Topic> topics = new ArrayList<Topic>();
 	    MCQQuestionDAO mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
-	    int error = mcqDao.displayTopics();
+	    String topicsToDisplay = mcqDao.displayTopics();
+	    if (topicsToDisplay == null)
+	    {
+			System.out.println("\nThere was an error displaying the topics.");
+			return;
+	    }
+	    else if (topicsToDisplay.isEmpty())
+	    {
+			System.out.println("\nThere are no Topics.");
+			return;
+	    }
+	    System.out.println("The topics available are:\n");
+	    System.out.println(topicsToDisplay);
 		Scanner input = new Scanner(System.in);
 		System.out.print("Enter the number of topics you want.\n");
 		int topicsNumber = input.nextInt();
@@ -52,11 +67,42 @@ public class StudentConsole {
 		}
 		Quiz quiz = new Quiz(topics);
 		Evaluation eval = new Evaluation(student, quiz);
-		eval.startEvaluation();
-		try {
-			eval.exportToPdf();
-		} catch (DocumentException e) {
-			e.printStackTrace();
+		
+		for (Question question : quiz.getQuestions())
+		{
+			int error;
+			System.out.print(question.toString());
+			do
+			{
+				System.out.print("\nEnter your answer:\n");
+				String answer = input.nextLine();
+				error = eval.startEvaluation(question, answer);
+			}
+			while (error == -1);
 		}
+		System.out.print("Your grade is : " + eval.getGrade() + ("\n"));
+		System.out.print("Do you want to export your quiz in pdf ? y/n");
+		String response = input.next();
+		input.nextLine();
+		switch (response)
+		{
+			case "y":
+			case "Y":
+				System.out.print("Type the name you want to give to your pdf to export");
+				String pdfTitle = input.nextLine();
+				try {
+					eval.exportToPdf(pdfTitle);
+				} catch (DocumentException e) 
+				{
+					e.printStackTrace();
+				}
+				break;
+			case"n":
+			case"N":
+				break;
+			default:
+				System.out.println("Unkown answer.");
+				break;
 		}
+	}
 }

@@ -18,19 +18,9 @@ public class MCQAnswer extends Answer {
 	 * @param question An MCQ question of the quiz.
 	 *
 	 */
-	public void setAnswer(Question question)
+	public void setAnswer(MCQChoice answer)
 	{
-		Scanner input = new Scanner(System.in);
-		MCQQuestion mcqQuestion = (MCQQuestion) question;
-		int nbChoices = mcqQuestion.numberOfChoices();
-		int choice;
-		do
-		{
-			System.out.print("\nEnter your answer:\n");
-			choice = input.nextInt();
-			input.nextLine();
-		} while (choice < 1 || choice > nbChoices);
-		mcqAnswer = mcqQuestion.getChoices().get(choice - 1);
+		mcqAnswer = answer;
 	}
 	
 	/**

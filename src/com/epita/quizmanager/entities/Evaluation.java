@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.epita.quizmanager.services.PDFFormatter;
-import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 
 /**
@@ -37,50 +36,50 @@ public class Evaluation {
 	/**
 	 * Starts the evaluation.
 	 * Goes through quiz questions and saves user answers.
-	 * Calculates grade in the way and displays it at the end.
+	 * Calculates grade in the way.
+	 * @param question - the quiz question to get an answer of.
+	 * @param answer - The answer typed by the user in the console
 	 */
-	public void startEvaluation()
+	public int startEvaluation(Question question, String answer)
 	{
-//		//TODO : Several answers
-		for (Question question : questions)
+		if (question.getType() == QuestionType.MCQ)
 		{
-			Scanner input = new Scanner(System.in);
-			System.out.print(question.toString());
-			if (question.getType() == QuestionType.MCQ)
+			MCQAnswer mcqAnswer = new MCQAnswer();
+			MCQQuestion mcqQuestion = (MCQQuestion) question;
+			int nbChoices = mcqQuestion.numberOfChoices();
+			int choice = Integer.valueOf(answer);
+			if (choice < 1 || choice > nbChoices)
+				return -1;
+			mcqAnswer.setAnswer(mcqQuestion.getChoices().get(choice - 1));
+			answers.add(mcqAnswer);				
+			if (mcqAnswer.getAnswer().isValid())
 			{
-				MCQAnswer mcqAnswer = new MCQAnswer();
-				mcqAnswer.setAnswer(question);
-				answers.add(mcqAnswer);
-				System.out.println();
-				if (mcqAnswer.getAnswer().isValid())
-				{
-					grade += 1;
-				}
-			}
-			else if (question.getType() == QuestionType.Open)
-			{
-				OpenAnswer OpenAnswer = new OpenAnswer();
-				OpenAnswer.setAnswer(question);
-				answers.add(OpenAnswer);					
-			}
-			else
-			{
-				System.out.println("Unkown question type.");
+				grade += 1;
 			}
 		}
-		System.out.println("grade is: " + grade);
+		else if (question.getType() == QuestionType.Open)
+		{
+			OpenAnswer OpenAnswer = new OpenAnswer();
+			OpenAnswer.setAnswer(answer);
+			answers.add(OpenAnswer);					
+		}
+		return 0;
 	}
-
+	
+	public int getGrade()
+	{
+		return grade;
+	}
 	
 	/**
 	 * Exports taken quiz with the user answers and their grade to PDF.
 	 * @throws DocumentException
 	 */
-	public void exportToPdf() throws DocumentException
+	public void exportToPdf(String pdfTitle) throws DocumentException
 	{
 		//TODO : add pdf title to param and make it a configurable variable
 		PDFFormatter pdfFormat = new PDFFormatter();
-		pdfFormat.createPdf("test.pdf");
+		pdfFormat.createPdf(pdfTitle);
 		pdfFormat.addTitlePage("Quiz Evaluation", user.getName());
 		int index = 0;
 		for (Question question : questions)

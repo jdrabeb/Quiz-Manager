@@ -37,8 +37,9 @@ public abstract class DAO<T> {
 	/**
 	 * Delete an object
 	 * @param obj_id
+	 * @return 0 if successful
 	 */
-	public abstract void delete(int obj_id);
+	public abstract int delete(int obj_id);
 
 	/**
 	 * Find a list of objects based on a value.

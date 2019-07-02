@@ -159,9 +159,20 @@ public class AdminConsole {
 	{
 		Scanner input = new Scanner(System.in);
 	    MCQQuestionDAO mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
-	    int error = mcqDao.displayQuestions();
-	    if (error == 0)
+		System.out.println("\nAll the available Open Questions.\n");
+	    String questionsToDisplay = mcqDao.displayQuestions();
+	    if (questionsToDisplay == null)
 	    {
+			System.out.println("\nError displaying the qestions.\n");
+	    }
+	    else if (questionsToDisplay.isEmpty())
+	    {
+			System.out.println("There are no MCQ questions to update.\n");
+	    }
+	    else
+	    {
+			System.out.print("All the available MCQ questions.\n");
+	    	System.out.println(questionsToDisplay + '\n');
 			System.out.print("Enter the question_id of the question to update.\n");
 			System.out.print("Enter 0 to go back.\n");
 			int question_id = input.nextInt();
@@ -194,10 +205,6 @@ public class AdminConsole {
     			break;
     		}
 	    }
-	    else
-	    {
-			System.out.print("No question to update.\n");
-	    }
 	}
 	
 	/**
@@ -207,9 +214,19 @@ public class AdminConsole {
 	{
 	    MCQQuestionDAO mcqDao = new MCQQuestionDAO(DBConnection.getInstance());
 		Scanner input = new Scanner(System.in);
-	    int error = mcqDao.displayQuestions();
-	    if (error == 0)
+	    String questionsToDisplay = mcqDao.displayQuestions();
+	    if (questionsToDisplay == null)
 	    {
+			System.out.println("\nError displaying the qestions.\n");
+	    }
+	    else if (questionsToDisplay.isEmpty())
+	    {
+			System.out.println("There are no MCQ questions to delete.\n");
+	    }
+	    else
+	    {
+			System.out.print("All the available MCQ questions.\n");
+	    	System.out.println(questionsToDisplay + '\n');
 			System.out.print("Enter the question_id of the question to delete.\n");
 			System.out.print("Enter 0 to go back.\n");
 			int question_id = input.nextInt();
@@ -217,11 +234,15 @@ public class AdminConsole {
 			{
 				return;
 			}
-			mcqDao.delete(question_id);
-	    }
-	    else
-	    {
-			System.out.print("No question to delete.\n");
+			int error = mcqDao.delete(question_id);
+			if (error == 0)
+			{
+				System.out.println("The question was deleted succesfully.\n");
+			}
+			else
+			{
+				System.out.println("Error deleting the question.\n");
+			}
 	    }
 	}
 	
@@ -310,9 +331,19 @@ public class AdminConsole {
 	{
 		Scanner input = new Scanner(System.in);
 	    OpenQuestionDAO openDao = new OpenQuestionDAO(DBConnection.getInstance());
-	    int error = openDao.displayQuestions();
-	    if (error == 0)
+	    String questionsToDisplay = openDao.displayQuestions();
+	    if (questionsToDisplay == null)
 	    {
+			System.out.println("\nError displaying the qestions.\n");
+	    }
+	    else if (questionsToDisplay.isEmpty())
+	    {
+			System.out.println("There are no questions to update.\n");
+	    }
+	    else
+	    {
+			System.out.print("All the available open questions.\n");
+			System.out.print(questionsToDisplay + "\n");
 			System.out.print("Enter the question_id of the question to update.\n");
 			System.out.print("Enter 0 to go back.\n");
 			int question_id = input.nextInt();
@@ -345,10 +376,6 @@ public class AdminConsole {
     			break;
     		}
 	    }
-	    else
-	    {
-			System.out.print("No question to update.\n");
-	    }
 	}
 	
 	/**
@@ -358,9 +385,19 @@ public class AdminConsole {
 	{
 	    OpenQuestionDAO openDao = new OpenQuestionDAO(DBConnection.getInstance());
 		Scanner input = new Scanner(System.in);
-	    int error = openDao.displayQuestions();
-	    if (error == 0)
+	    String questionsToDisplay = openDao.displayQuestions();
+	    if (questionsToDisplay == null)
 	    {
+			System.out.println("\nError displaying the qestions.\n");
+	    }
+	    else if (questionsToDisplay.isEmpty())
+	    {
+			System.out.println("There are no questions to delete.\n");
+	    }
+	    else
+	    {
+			System.out.print("All the available open questions.\n");
+			System.out.print(questionsToDisplay + "\n");
 			System.out.print("Enter the question_id of the question to delete.\n");
 			System.out.print("Enter 0 to go back.\n");
 			int question_id = input.nextInt();
@@ -368,11 +405,15 @@ public class AdminConsole {
 			{
 				return;
 			}
-			openDao.delete(question_id);
-	    }
-	    else
-	    {
-			System.out.print("No question to update.\n");
+			int error = openDao.delete(question_id);
+			if (error == 0)
+			{
+				System.out.println("The question was deleted succesfully.\n");
+			}
+			else
+			{
+				System.out.println("\nError deleting the qestion.\n");
+			}
 	    }
 	}
 	

@@ -64,9 +64,9 @@ public class UserDAO extends DAO<User> {
 	 * Delete a user from the database.
 	 * @param user_id - The user_id of the user to delete.
 	 */
-	public void delete(int user_id)
+	public int delete(int user_id)
 	{
-		  
+		  return 0;
 	}
 
 	/**
