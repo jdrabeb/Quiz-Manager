@@ -5,9 +5,19 @@ This is a tool for creating and generating a quiz.
 ## Database connection
 
 Databse used is h2 database.
-In order to set up different database configuration change the file properties.config
+The default identifiants of database used in this projects are:
+```
+  jdbc.url=jdbc:h2:~/test
+  jdbc.username=sa
+  jdbc.password=
+```
+
+If you have different database identifiants, put them in the properties.config file.
 
 If the h2 database doesn't work, add the h2 .jar file inside the /lib folder to the classpath.
+Follow this [tutorial](http://www.oxfordmathcenter.com/drupal7/node/44) to add an external jar to the classpath of your project.
+
+Do the same for the itextpdf jar inside the /lib folder in order to export quiz to pdf.
 
 
 ## User guide
@@ -17,6 +27,9 @@ Before starting you need to run the sql queries in the "database_init" file insi
 The queries will also add a student user and an admin user with the identifiants shown after. The tables created are empty so taking a quiz as student will not be possible until you add questions as an admin.
 
 #### Starting the program 
+
+To run the program, run the Main in the package com.epita.quimanager.main. You can use Eclipse, Netbeans or Intellij Ideas to run the project easily. Otherwise you need to compile all the classes.
+
 
 Will get you to a menu where you can register or login. 
 
@@ -90,7 +103,7 @@ At the end of the evaluation you will have the grade calculated based on the MCQ
 If you chose you chose to export your quiz along with your answers and grade, you will be asked to enter the name you want to give your pdf. On successful pdf generation you will get a log telling you so.
 
 ```
-  PDF Created successfully!\n\n
+  PDF Created successfully!
 ```
 
 The pdf will be generated in the main directory of the program.
