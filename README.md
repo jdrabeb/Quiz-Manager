@@ -7,10 +7,22 @@ This is a tool for creating and generating a quiz.
 Databse used is h2 database.
 In order to set up different database configuration change the file properties.config
 
+If the h2 database doesn't work, add the h2 .jar file inside the /lib folder to the classpath.
+
 
 ## User guide
 
-Based on a database with users the program checks the user's rights (if it is an admin or not, if not it is a student).
+Before starting you need to run the sql queries in the "database_init" file inside the h2 databse. This will create all the tables needed to stores the quesitons and users. 
+
+The queries will also add a student user and an admin user with the identifiants shown after. The tables created are empty so taking a quiz as student will not be possible until you add questions as an admin.
+
+#### Starting the program 
+
+Will get you to a menu where you can register or login. 
+
+When logging in, based on a users table in the database, the program checks the user's rights (if it is an admin or not, if not the user is considered as a student).
+
+You can also exit which will stop the program.
 
 ### Admin Console
 
@@ -21,15 +33,17 @@ To login as admin, use the following ids:
   password: admin
 ```
 
-As an admin you will have the following menu that allows you to do the following actions : 
+As an admin you will have the following menu that allows you to do the following actions: 
 
 ```
 1. Manipulate MCQ Questions
 2. Manipulate Open Questions
+3. Exit
 ```
 
 Either choice will give you its proper menu that allows you to do the following actions on the type of question 
 you selected.
+Exiting will get you back to the register/login menu.
 
 ```
 1. Create a question
