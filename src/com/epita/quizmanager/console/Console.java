@@ -54,13 +54,12 @@ public class Console {
 					} while ( !"n".equals(response.toLowerCase()) && !"y".equals(response.toLowerCase()));
 					if ("y".equals(response.toLowerCase()))
 					{
-						System.out.println("here");
 						isAdmin = true;
 					}
 					User newUser = new User(username, password, id, isAdmin);
 				    DAO<User> userDao = new UserDAO(DBConnection.getInstance());
 					userDao.create(newUser);
-					System.out.println("User registered successfully ?\n");
+					System.out.println("\nUser registered successfully !\n");
 	        		break;
 	        	}
 	        	case 2:

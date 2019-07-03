@@ -81,7 +81,7 @@ public class StudentConsole {
 			while (error == -1);
 		}
 		System.out.print("Your grade is : " + eval.getGrade() + ("\n"));
-		System.out.print("Do you want to export your quiz in pdf ? y/n");
+		System.out.print("Do you want to export your quiz in pdf ? y/n \n");
 		String response = input.next();
 		input.nextLine();
 		switch (response)
@@ -92,6 +92,7 @@ public class StudentConsole {
 				String pdfTitle = input.nextLine();
 				try {
 					eval.exportToPdf(pdfTitle);
+					System.out.print("PDF Created successfully!\n\n");
 				} catch (DocumentException e) 
 				{
 					e.printStackTrace();
