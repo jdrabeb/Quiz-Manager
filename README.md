@@ -4,7 +4,7 @@ This is a tool for creating and generating a quiz. It was created as a project f
 
 ## Database connection
 
-Databse used is h2 database.
+The database used is h2 database.
 The default identifiants of database used in this projects are:
 ```
   jdbc.url=jdbc:h2:~/test
@@ -14,15 +14,15 @@ The default identifiants of database used in this projects are:
 
 If you have different database identifiants, put them in the properties.config file.
 
-If the h2 database doesn't work, add the h2 .jar file inside the /lib folder to the classpath.
+If the h2 database doesn't work, add /lib/h2.jar to the modulepath.
 Follow this [tutorial](http://www.oxfordmathcenter.com/drupal7/node/44) to add an external jar to the classpath of your project.
 
-Do the same for the itextpdf jar inside the /lib folder in order to export quiz to pdf.
+Do the same for /lib/itext.jar in order to be able to export quiz to pdf.
 
 
 ## Prerequiste
 
-Before starting you need to run the sql queries in the "database_init" file inside the h2 databse. This will create all the tables needed to stores the quesitons and users. 
+Before starting you need to run the sql queries in the "database_init.txt" file in your h2 database. This will create all the tables needed to stores the quesitons and users. 
 
 The queries will also add a student user and an admin user with the identifiants shown after. The tables created are empty so taking a quiz as student will not be possible until you add questions as an admin.
 
