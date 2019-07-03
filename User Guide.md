@@ -1,16 +1,8 @@
 
 ## User guide
 
-Before starting you need to run the sql queries in the "database_init" file inside the h2 databse. This will create all the tables needed to stores the quesitons and users. 
 
-The queries will also add a student user and an admin user with the identifiants shown after. The tables created are empty so taking a quiz as student will not be possible until you add questions as an admin.
-
-#### Starting the program 
-
-To run the program, run the Main in the package com.epita.quimanager.main. You can use Eclipse, Netbeans or Intellij Ideas to run the project easily. Otherwise you need to compile all the classes.
-
-
-Will get you to a menu where you can register or login. 
+Running the program will get you to a menu where you can register or login. 
 
 When logging in, based on a users table in the database, the program checks the user's rights (if it is an admin or not, if not the user is considered as a student).
 
