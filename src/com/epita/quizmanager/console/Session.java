@@ -22,7 +22,7 @@ public class Session {
 	    User user = userDao.findLogin(username, password);
 	    if (user == null)
 	    {
-	    	System.out.println("Authentification failed. Please try again!");
+	    	System.out.println("Authentification failed. Please try again!\n");
 	    }
 	    else
 	    {

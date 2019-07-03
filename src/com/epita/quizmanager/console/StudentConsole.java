@@ -101,7 +101,7 @@ public class StudentConsole {
 			case"N":
 				break;
 			default:
-				System.out.println("Unkown answer.");
+				System.out.println("Unknown answer.");
 				break;
 		}
 	}

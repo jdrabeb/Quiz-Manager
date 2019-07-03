@@ -55,7 +55,7 @@ public class AdminConsole {
 	        	break;
 	        }
 	    }
-	    input.close();
+	    input.nextLine();
 	}
 	
 	/**
