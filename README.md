@@ -26,6 +26,6 @@ Before starting you need to run the sql queries in the "database_init" file insi
 
 The queries will also add a student user and an admin user with the identifiants shown after. The tables created are empty so taking a quiz as student will not be possible until you add questions as an admin.
 
-#### Running the program 
+## Running the program 
 
 To run the program, run the Main in the package com.epita.quimanager.main. You can use Eclipse, Netbeans or Intellij Ideas to run the project easily. Otherwise you need to compile all the classes.
