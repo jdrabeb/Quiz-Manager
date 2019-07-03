@@ -81,7 +81,7 @@ public class StudentConsole {
 			while (error == -1);
 		}
 		System.out.print("Your grade is : " + eval.getGrade() + ("\n"));
-		System.out.print("Do you want to export your quiz in pdf ? y/n \n");
+		System.out.print("\nDo you want to export your quiz in pdf ? y/n \n");
 		String response = input.next();
 		input.nextLine();
 		switch (response)
